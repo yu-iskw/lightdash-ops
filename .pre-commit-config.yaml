@@ -1,0 +1,56 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-json
+      - id: check-yaml
+      - id: detect-private-key
+      - id: debug-statements
+      - id: double-quote-string-fixer
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        name: isort (python)
+  - repo: https://github.com/pycqa/pylint
+    rev: v2.17.2
+    hooks:
+      - id: pylint
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: 'v1.3.0'
+    hooks:
+      - id: mypy
+        additional_dependencies: [types-all]
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.6.24
+    hooks:
+      - id: actionlint-docker
+  - repo: https://github.com/hadolint/hadolint
+    rev: v2.12.0
+    hooks:
+      - id: hadolint
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.29.0
+    hooks:
+      - id: yamllint
+        args: [--strict, -c=.yamllint]
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.9.0.2
+    hooks:
+      - id: shellcheck
+  - repo: local
+    hooks:
+      # Generate the JSON schemas and the docs of the CLI
+      - id: update-resources
+        name: update-resources
+        entry: bash
+        language: system
+        args: ["./dev/update_resources.sh"]
+
+
+ci:
+  skip:
+    - hadolint
+    - actionlint-docker
