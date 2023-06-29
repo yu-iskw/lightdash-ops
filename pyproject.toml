@@ -66,7 +66,7 @@ dev = [
 ]
 doc = [
     # https://github.com/tiangolo/typer-cli/pull/120
-    "typer-cli @ git+https://github.com/Patarimi/typer-cli",
+    # "typer-cli",
 ]
 
 [tool.mypy]
