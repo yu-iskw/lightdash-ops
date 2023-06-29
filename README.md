@@ -31,18 +31,19 @@ The CLI provides many sub commands.
 Please refer to the detailed documentation in [docs/cli.ms](./docs/cli.md).
 
 #### Example
+The subsequent command is used to get all members in an organization.
 
 ```commandline
 $ lightdash-ops organization get-members --api-key "${LIGHTDASH_PERSONAL_ACCESS_TOKEN}"
 [
   {
-    "member_uuid": "ed4b34e3-390a-4456-9188-f8947f8e600a",
-    "email": "yu.ishikawa+lightdash-test2@dr-ubie.com",
+    "member_uuid": "ade0aef5-bca8-4cbe-819b-07803390ffb0",
+    "email": "lightdash-member@example.com",
     "role": "member"
   },
   {
-    "member_uuid": "5e2a5183-7a56-4412-8259-10893b0c8fb7",
-    "email": "yu.ishikawa+lightdash-test@dr-ubie.com",
+    "member_uuid": "d7ee948b-26d6-461a-b289-906cc7bb0c73",
+    "email": "lightdash-admin@example.com",
     "role": "admin"
   }
 ]
