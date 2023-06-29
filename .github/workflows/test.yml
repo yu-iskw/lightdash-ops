@@ -37,7 +37,7 @@ jobs:
           key: ${{ runner.os }}-python-${{ env.pythonLocation }}-${{ hashFiles('pyproject.toml') }}-test
       - name: Install Flit
         if: steps.cache.outputs.cache-hit != 'true'
-        run: bash dev/setup.sh --deps "develop"
+        run: bash dev/setup.sh --flit-deps "develop"
 #      - name: Lint
 #        run: |
 #          pre-commit run --all-files
