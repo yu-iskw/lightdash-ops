@@ -64,14 +64,7 @@ def get_members(
     if role is not None:
         members = [member for member in members if member.role == role]
     # Format output
-    formatted_members = [
-        {
-            'member_uuid': x.uuid,
-            'email': x.email,
-            'role': x.role.value,
-        }
-        for x in members
-    ]
+    formatted_members = [member.dict() for member in members]
     print(json.dumps(formatted_members, indent=2))
 
 

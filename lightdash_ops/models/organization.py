@@ -21,7 +21,7 @@ from lightdash_client.models import OrganizationMemberRole
 from pydantic import BaseModel, EmailStr, Field, ValidationError, validator
 
 
-class OrganizationRole(enum.Enum):
+class OrganizationRole(str, enum.Enum):
     """Organization role"""
     ADMIN = 'admin'
     DEVELOPER = 'developer'
