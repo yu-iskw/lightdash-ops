@@ -72,7 +72,7 @@ jobs:
           python3 -m pip install \
             --index-url https://test.pypi.org/simple/ \
             --force-reinstall \
-            --use-feature=2020-resolver \
+            --use-feature="fast-deps" \
             -U lightdash-ops=="${{ github.event.inputs.package_version }}"
       - name: Test pacakge
         run: |
