@@ -25,9 +25,13 @@ PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 
 # Parse arguments
 flit_version="3.7.1"
+deps="production"
 while (($# > 0)); do
   if [[ "$1" == "--flit-version" ]]; then
     flit_version="$2"
+    shift 2
+  elif [[ "$1" == "--deps" ]]; then
+    deps="$2"
     shift 2
   else
     echo "ERROR: Unrecognized argument ${1}" >&2
@@ -40,4 +44,4 @@ cd "$PROJECT_DIR" || exit 1
 
 # Install dependencies
 pip install -U flit=="${flit_version:?}"
-flit install --deps develop --symlink
+flit install --deps "${deps:}" --symlink
