@@ -25,7 +25,7 @@ from lightdash_ops.models.settings import get_settings
 from lightdash_ops.utils import is_future_date
 
 
-class ProjectRole(enum.Enum):
+class ProjectRole(str, enum.Enum):
     """Project roles"""
     ADMIN = 'admin'
     DEVELOPER = 'developer'
