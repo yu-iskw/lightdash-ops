@@ -1,0 +1,9 @@
+type: "organization-v1"
+allow_manual_management: False
+organization:
+  uuid: "test-organization-uuid"
+  members:
+    - email: "test@example.com"
+      role: "admin"
+    - email: "test2@example.com"
+      role: "viewer"
