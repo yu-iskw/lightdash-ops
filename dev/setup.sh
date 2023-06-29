@@ -24,6 +24,7 @@ SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 
 # Parse arguments
+flit_version="3.7.1"
 while (($# > 0)); do
   if [[ "$1" == "--flit-version" ]]; then
     flit_version="$2"
