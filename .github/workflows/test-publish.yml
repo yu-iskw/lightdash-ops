@@ -1,0 +1,79 @@
+name: Test publish (testpypi)
+
+on:
+  workflow_dispatch:
+    inputs:
+      package_version:
+        description: "package version"
+        required: true
+
+env:
+  PYPI_PROJECT_NAME: "lightdash-ops"
+  PYPI_PACKAGE_NAME: "lightdash_ops"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+      - uses: actions/cache@v2
+        id: cache
+        with:
+          path: ${{ env.pythonLocation }}
+          key: ${{ runner.os }}-python-${{ env.pythonLocation }}-${{ hashFiles('pyproject.toml') }}-publish
+      - name: Install Flit
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: bash dev/setup.sh
+      - name: Test publish
+        env:
+          # SEE https://packaging.python.org/en/latest/specifications/pypirc/?highlight=token#using-a-pypi-token
+          FLIT_USERNAME: __token__
+          FLIT_PASSWORD: ${{ secrets.TESTPYPI_API_TOKEN }}
+        run: bash dev/publish.sh "testpypi"
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
+  test-published-package:
+    needs:
+      - publish
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "${{ matrix.python-version }}"
+      - name: Install packages
+        run: |
+          python3 -m pip install -U pip~=23.1.0
+          python3 -m pip install \
+            --index-url https://test.pypi.org/simple/ \
+            --force-reinstall \
+            --use-feature=2020-resolver \
+            -U lightdash-ops=="${{ github.event.inputs.package_version }}"
+      - name: Test pacakge
+        run: |
+          python -c 'import ${{ env.PYPI_PACKAGE_NAME }}'

@@ -1,0 +1,13 @@
+type: "user-group-v1"
+enabled: True
+groups:
+  - name: "Test Group 1"
+    members:
+      - email: "test@example.com"
+      - email: "test2@example.com"
+        expired_on: "2100-01-01"
+  - name: "Test Group 2"
+    members:
+      - email: "test3@example.com"
+      - email: "test4@example.com"
+        expired_on: "2100-01-01"

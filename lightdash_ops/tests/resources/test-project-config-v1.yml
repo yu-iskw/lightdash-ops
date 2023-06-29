@@ -1,0 +1,30 @@
+type: "project-v1"
+enabled: True
+delete_undefined_spaces: True
+project:
+  name: "Test Project 1"
+  uuid: "test-uuid"
+  description: "test project"
+  members:
+    - email: "test@example.com"
+      role: "admin"
+    - email: "test2@example.com"
+      role: "member"
+      expired_on: "2100-01-01"
+  spaces:
+    - name: "Test Space 1"
+      visibility: "private"
+      description: "test space 1"
+      members:
+        - email: "test2@example.com"
+    - name: "Test Space 2"
+      visibility: "private"
+      description: "test space 2"
+      members:
+        - email: "test2@example.com"
+          expired_on: "2100-01-01"
+    - name: "Test Space 3"
+      visibility: "public"
+      description: "test space 3"
+      allow_manual_management: True
+      members: []
