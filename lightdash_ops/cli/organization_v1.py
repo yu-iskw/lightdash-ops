@@ -31,14 +31,13 @@ organization_v1_app = typer.Typer()
 
 
 @organization_v1_app.command('get-projects')
-def get_projects(
-        api_key: Annotated[str, typer.Option(help='Lightdash API key')]
-):
+def get_projects():
     """Get all projects in an organization"""
     # Get the settings
     settings = get_settings()
     # Create the Lightdash client
-    client = get_lightdash_client(api_key=api_key, base_url=settings.LIGHTDASH_BASE_URL)
+    client = get_lightdash_client(api_key=settings.LIGHTDASH_API_KEY,
+                                  base_url=settings.LIGHTDASH_URL)
     # Create the operator
     operator = OrganizationOperatorV1(client=client)
     # Get all projects
@@ -49,14 +48,14 @@ def get_projects(
 
 @organization_v1_app.command('get-members')
 def get_members(
-        api_key: Annotated[str, typer.Option(help='Lightdash API key')],
         role: Annotated[OrganizationRole, typer.Option(help='project role')] = None  # type: ignore[assignment]
 ):
     """Get members in an organization as JSON"""
     # Get the settings
     settings = get_settings()
     # Create the Lightdash client
-    client = get_lightdash_client(api_key=api_key, base_url=settings.LIGHTDASH_BASE_URL)
+    client = get_lightdash_client(api_key=settings.LIGHTDASH_API_KEY,
+                                  base_url=settings.LIGHTDASH_URL)
     # Create the operator
     operator = OrganizationOperatorV1(client=client)
     # Get all members in the organization
@@ -70,7 +69,6 @@ def get_members(
 
 @organization_v1_app.command('grant-role')
 def grant_member_role(
-        api_key: Annotated[str, typer.Option(help='Lightdash API key')],
         email: Annotated[str, typer.Option(help='member email')],
         role: Annotated[OrganizationRole, typer.Option(help='project role')] = None  # type: ignore[assignment]
 ):
@@ -78,7 +76,8 @@ def grant_member_role(
     # Get the settings
     settings = get_settings()
     # Create the Lightdash client
-    client = get_lightdash_client(api_key=api_key, base_url=settings.LIGHTDASH_BASE_URL)
+    client = get_lightdash_client(api_key=settings.LIGHTDASH_API_KEY,
+                                  base_url=settings.LIGHTDASH_URL)
     # Create the operator
     operator = OrganizationOperatorV1(client=client)
     # Grant the role to the member

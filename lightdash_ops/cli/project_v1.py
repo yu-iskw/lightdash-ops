@@ -33,14 +33,14 @@ project_v1_app = typer.Typer()
 
 @project_v1_app.command('get-members')
 def get_project_members(
-        api_key: Annotated[str, typer.Option(help='Lightdash API key')],
         project_uuid: Annotated[str, typer.Option(help='Lightdash project UUID')],
 ):
     """Get the members of a project as JSON"""
     # Load the settings
     settings = get_settings()
     # Create the Lightdash client
-    client = get_lightdash_client(api_key=api_key, base_url=settings.LIGHTDASH_BASE_URL)
+    client = get_lightdash_client(api_key=settings.LIGHTDASH_API_KEY,
+                                  base_url=settings.LIGHTDASH_URL)
     # Create the operator
     operator = ProjectOperatorV1(client=client)
     members = operator.get_project_members(project_uuid=project_uuid)
@@ -49,7 +49,6 @@ def get_project_members(
 
 @project_v1_app.command('grant-role')
 def grant_project_role(
-        api_key: Annotated[str, typer.Option(help='Lightdash API key')],
         project_uuid: Annotated[str, typer.Option(help='Lightdash project UUID')],
         role: Annotated[ProjectRole, typer.Option(help='project role')],
         user_email: Annotated[Optional[str], typer.Option(help='User email')] = None,
@@ -63,7 +62,8 @@ def grant_project_role(
     # Load the settings
     settings = get_settings()
     # Create the Lightdash client
-    client = get_lightdash_client(api_key=api_key, base_url=settings.LIGHTDASH_BASE_URL)
+    client = get_lightdash_client(api_key=settings.LIGHTDASH_API_KEY,
+                                  base_url=settings.LIGHTDASH_URL)
 
     # Find user UUID by email
     if user_uuid is not None:
@@ -86,7 +86,6 @@ def grant_project_role(
 
 @project_v1_app.command('revoke-role')
 def revoke_project_role(
-        api_key: Annotated[str, typer.Option(help='Lightdash API key')],
         project_uuid: Annotated[str, typer.Option(help='Lightdash project UUID')],
         role: Annotated[ProjectRole, typer.Option(help='project role')],
         user_email: Annotated[Optional[str], typer.Option(help='User email')] = None,
@@ -100,7 +99,8 @@ def revoke_project_role(
     # Load the settings
     settings = get_settings()
     # Create the Lightdash client
-    client = get_lightdash_client(api_key=api_key, base_url=settings.LIGHTDASH_BASE_URL)
+    client = get_lightdash_client(api_key=settings.LIGHTDASH_API_KEY,
+                                  base_url=settings.LIGHTDASH_URL)
 
     # Find user UUID by email
     if user_uuid is not None:
@@ -125,14 +125,14 @@ def revoke_project_role(
 
 @project_v1_app.command('get-spaces')
 def get_spaces(
-        api_key: Annotated[str, typer.Option(help='Lightdash API key')],
         project_uuid: Annotated[str, typer.Option(help='Lightdash project UUID')],
 ):
     """Get all spaces in a project as JSON"""
     # Load the settings
     settings = get_settings()
     # Create the Lightdash client
-    client = get_lightdash_client(api_key=api_key, base_url=settings.LIGHTDASH_BASE_URL)
+    client = get_lightdash_client(api_key=settings.LIGHTDASH_API_KEY,
+                                  base_url=settings.LIGHTDASH_URL)
     # Create the operator
     operator = ProjectOperatorV1(client=client)
     # Get all spaces
@@ -151,7 +151,6 @@ def get_spaces(
 
 @project_v1_app.command('share-space-access')
 def share_space_access(
-        api_key: Annotated[str, typer.Option(help='Lightdash API key')],
         project_uuid: Annotated[str, typer.Option(help='Lightdash project UUID')],
         space_uuid: Annotated[str, typer.Option(help='Lightdash space UUID')],
         user_uuid: Annotated[str, typer.Option(help='Lightdash user UUID')],
@@ -162,7 +161,8 @@ def share_space_access(
     # Load the settings
     settings = get_settings()
     # Create the Lightdash client
-    client = get_lightdash_client(api_key=api_key, base_url=settings.LIGHTDASH_BASE_URL)
+    client = get_lightdash_client(api_key=settings.LIGHTDASH_API_KEY,
+                                  base_url=settings.LIGHTDASH_URL)
 
     # Find user UUID by email
     if user_uuid is not None:
@@ -191,7 +191,6 @@ def share_space_access(
 
 @project_v1_app.command('revoke-space-access')
 def revoke_space_access(
-        api_key: Annotated[str, typer.Option(help='Lightdash API key')],
         project_uuid: Annotated[str, typer.Option(help='Lightdash project UUID')],
         space_uuid: Annotated[str, typer.Option(help='Lightdash space UUID')],
         user_uuid: Annotated[str, typer.Option(help='Lightdash user UUID')],
@@ -202,7 +201,8 @@ def revoke_space_access(
     # Load the settings
     settings = get_settings()
     # Create the Lightdash client
-    client = get_lightdash_client(api_key=api_key, base_url=settings.LIGHTDASH_BASE_URL)
+    client = get_lightdash_client(api_key=settings.LIGHTDASH_API_KEY,
+                                  base_url=settings.LIGHTDASH_URL)
 
     # Find user UUID by email
     if user_uuid is not None:

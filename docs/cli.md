@@ -48,7 +48,6 @@ $ lightdash-ops organization get-members [OPTIONS]
 
 **Options**:
 
-* `--api-key TEXT`: Lightdash API key  [required]
 * `--role [admin|developer|editor|interactive_viewer|member|viewer]`: project role
 * `--help`: Show this message and exit.
 
@@ -64,7 +63,6 @@ $ lightdash-ops organization get-projects [OPTIONS]
 
 **Options**:
 
-* `--api-key TEXT`: Lightdash API key  [required]
 * `--help`: Show this message and exit.
 
 ### `lightdash-ops organization grant-role`
@@ -79,7 +77,6 @@ $ lightdash-ops organization grant-role [OPTIONS]
 
 **Options**:
 
-* `--api-key TEXT`: Lightdash API key  [required]
 * `--email TEXT`: member email  [required]
 * `--role [admin|developer|editor|interactive_viewer|member|viewer]`: project role
 * `--help`: Show this message and exit.
@@ -117,7 +114,6 @@ $ lightdash-ops project get-members [OPTIONS]
 
 **Options**:
 
-* `--api-key TEXT`: Lightdash API key  [required]
 * `--project-uuid TEXT`: Lightdash project UUID  [required]
 * `--help`: Show this message and exit.
 
@@ -133,7 +129,6 @@ $ lightdash-ops project get-spaces [OPTIONS]
 
 **Options**:
 
-* `--api-key TEXT`: Lightdash API key  [required]
 * `--project-uuid TEXT`: Lightdash project UUID  [required]
 * `--help`: Show this message and exit.
 
@@ -147,7 +142,6 @@ $ lightdash-ops project grant-role [OPTIONS]
 
 **Options**:
 
-* `--api-key TEXT`: Lightdash API key  [required]
 * `--project-uuid TEXT`: Lightdash project UUID  [required]
 * `--role [admin|developer|editor|interactive_viewer|viewer|member]`: project role  [required]
 * `--user-email TEXT`: User email
@@ -165,7 +159,6 @@ $ lightdash-ops project revoke-role [OPTIONS]
 
 **Options**:
 
-* `--api-key TEXT`: Lightdash API key  [required]
 * `--project-uuid TEXT`: Lightdash project UUID  [required]
 * `--role [admin|developer|editor|interactive_viewer|viewer|member]`: project role  [required]
 * `--user-email TEXT`: User email
@@ -185,7 +178,6 @@ $ lightdash-ops project revoke-space-access [OPTIONS]
 
 **Options**:
 
-* `--api-key TEXT`: Lightdash API key  [required]
 * `--project-uuid TEXT`: Lightdash project UUID  [required]
 * `--space-uuid TEXT`: Lightdash space UUID  [required]
 * `--user-uuid TEXT`: Lightdash user UUID  [required]
@@ -205,7 +197,6 @@ $ lightdash-ops project share-space-access [OPTIONS]
 
 **Options**:
 
-* `--api-key TEXT`: Lightdash API key  [required]
 * `--project-uuid TEXT`: Lightdash project UUID  [required]
 * `--space-uuid TEXT`: Lightdash space UUID  [required]
 * `--user-uuid TEXT`: Lightdash user UUID  [required]
