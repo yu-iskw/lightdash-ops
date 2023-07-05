@@ -26,12 +26,23 @@ class LightdashOpsSettings(BaseSettings):
 
     SEE https://docs.pydantic.dev/latest/usage/settings/
     """
-    LIGHTDASH_BASE_URL: str = Field(default='https://app.lightdash.cloud',
-                                    qdescription='Lightdash base URL',
-                                    env='LIGHTDASH_BASE_URL')
+    LIGHTDASH_URL: str = Field(default=None,
+                               qdescription='Lightdash base URL',
+                               env='LIGHTDASH_URL')
+    LIGHTDASH_API_KEY: str = Field(default=None,
+                                   qdescription='Lightdash API key',
+                                   env='LIGHTDASH_API_KEY')
     LIGHTDASH_CLIENT_TIMEOUT: float = Field(default=5.0,
                                             qdescription='Lightdash base URL',
                                             env='LIGHTDASH_CLIENT_TIMEOUT')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Validate settings
+        if self.LIGHTDASH_URL is None:
+            raise ValueError('LIGHTDASH_URL is not set')
+        if self.LIGHTDASH_API_KEY is None:
+            raise ValueError('LIGHTDASH_API_KEY is not set')
 
     class Config:
         env_file = '.env'

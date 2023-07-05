@@ -23,6 +23,10 @@ set -Eeuo pipefail
 SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 
+# Dummy values
+export LIGHTDASH_URL="https://app.lightdash.cloud"
+export LIGHTDASH_API_KEY="dummy-api-key"
+
 # Update the documentation of the CLI
 typer lightdash_ops/cli/main.py utils docs --name "lightdash-ops" --output "docs/cli.md"
 

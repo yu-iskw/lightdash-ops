@@ -34,7 +34,8 @@ Please refer to the detailed documentation in [docs/cli.ms](./docs/cli.md).
 The subsequent command is used to get all members in an organization.
 
 ```commandline
-$ lightdash-ops organization get-members --api-key "${LIGHTDASH_PERSONAL_ACCESS_TOKEN}"
+$ export LIGHTDASH_API_KEY="YOUR-LIGHTDASH-PERSONAL-ACCESS-TOKEN"
+$ lightdash-ops organization get-members
 [
   {
     "member_uuid": "ade0aef5-bca8-4cbe-819b-07803390ffb0",

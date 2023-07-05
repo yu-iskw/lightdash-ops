@@ -24,10 +24,28 @@ class TestManagerSettings(unittest.TestCase):
 
     def test_set_by_env_vars(self):
         # Configure the settings by env vars
-        os.environ['LIGHTDASH_BASE_URL'] = 'http://localhost:8000'
+        os.environ['LIGHTDASH_URL'] = 'http://localhost:8000'
+        os.environ['LIGHTDASH_API_KEY'] = 'dummy-api-key'
         os.environ['LIGHTDASH_CLIENT_TIMEOUT'] = '1'
 
         # Create the settings
         settings = LightdashOpsSettings()
-        self.assertEqual(settings.LIGHTDASH_BASE_URL, 'http://localhost:8000')
+        self.assertEqual(settings.LIGHTDASH_URL, 'http://localhost:8000')
         self.assertEqual(settings.LIGHTDASH_CLIENT_TIMEOUT, 1)
+
+        # Tear down
+        del os.environ['LIGHTDASH_URL']
+        del os.environ['LIGHTDASH_CLIENT_TIMEOUT']
+        del os.environ['LIGHTDASH_API_KEY']
+
+    def test_violations(self):
+        # Test if ValueError is raised when no api key is set
+        keep_lightdash_api_key = None
+        if os.getenv('LIGHTDASH_API_KEY') is not None:
+            keep_lightdash_api_key = os.getenv('LIGHTDASH_API_KEY')
+            del os.environ['LIGHTDASH_API_KEY']
+        with self.assertRaises(ValueError):
+            LightdashOpsSettings()
+        # Tear down
+        if keep_lightdash_api_key is not None:
+            os.environ['LIGHTDASH_API_KEY'] = keep_lightdash_api_key
