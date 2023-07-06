@@ -18,7 +18,7 @@ The template is located at [.env.template](.env.template).
 
 ```commandline
 # .env
-LIGHTDASH_BASE_URL=https://localhost:8000
+LIGHTDASH_URL=https://localhost:8000
 ...
 ```
 
@@ -34,6 +34,7 @@ Please refer to the detailed documentation in [docs/cli.ms](./docs/cli.md).
 The subsequent command is used to get all members in an organization.
 
 ```commandline
+$ export LIGHTDASH_URL="https://localhost:8000"
 $ export LIGHTDASH_API_KEY="YOUR-LIGHTDASH-PERSONAL-ACCESS-TOKEN"
 $ lightdash-ops organization get-members
 [
