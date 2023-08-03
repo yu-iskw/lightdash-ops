@@ -25,6 +25,7 @@ from pydantic import BaseModel, EmailStr, Field
 from lightdash_ops.lightdash.project import (get_project_members,
                                              grant_project_member_role,
                                              revoke_project_access)
+from lightdash_ops.lightdash.space import delete_space_by_uuid
 from lightdash_ops.lightdash.space import get_spaces as get_lightdash_spaces
 from lightdash_ops.lightdash.space import grant_space_role
 from lightdash_ops.lightdash.space import \
@@ -157,6 +158,19 @@ class ProjectOperatorV1(BaseModel):
                 'role': member.role,
             })
         return formatted_members
+
+    def delete_space(self, project_uuid: str, space_uuid, dry_run: bool = True):
+        """Remove a space from a project"""
+        logger.info(f'Will remove {space_uuid}')
+        if dry_run is False:
+            response = delete_space_by_uuid(
+                client=self.client,
+                project_uuid=project_uuid,
+                space_uuid=space_uuid,
+            )
+            logger.info(f'Removed {space_uuid}. Status code: ${response.parsed.status}')
+            return response
+        return None
 
     def grant_space_role(
             self, project_uuid: str, space_uuid: str, user_uuid: str, dry_run: bool = True):

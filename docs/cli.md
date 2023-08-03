@@ -95,12 +95,30 @@ $ lightdash-ops project [OPTIONS] COMMAND [ARGS]...
 
 **Commands**:
 
+* `delete-space`: Remove a space from a project
 * `get-members`: Get the members of a project as JSON
 * `get-spaces`: Get all spaces in a project as JSON
 * `grant-role`
 * `revoke-role`
 * `revoke-space-access`: Share space access with another user
 * `share-space-access`: Share space access with another user
+
+### `lightdash-ops project delete-space`
+
+Remove a space from a project
+
+**Usage**:
+
+```console
+$ lightdash-ops project delete-space [OPTIONS]
+```
+
+**Options**:
+
+* `--project-uuid TEXT`: Lightdash project UUID  [required]
+* `--space-uuid TEXT`: Lightdash space UUID  [required]
+* `--dry-run / --no-dry-run`: Dry run if true  [default: no-dry-run]
+* `--help`: Show this message and exit.
 
 ### `lightdash-ops project get-members`
 
