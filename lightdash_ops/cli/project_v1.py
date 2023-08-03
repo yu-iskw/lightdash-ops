@@ -148,6 +148,26 @@ def get_spaces(
         })
     print(json.dumps(formatted_spaces, indent=2))
 
+@project_v1_app.command('delete-space')
+def delete_space(
+        project_uuid: Annotated[str, typer.Option(help='Lightdash project UUID')],
+        space_uuid: Annotated[str, typer.Option(help='Lightdash space UUID')],
+        dry_run: Annotated[bool, typer.Option(help='Dry run if true')] = False,
+):
+    """Remove a space from a project"""
+    # Load the settings
+    settings = get_settings()
+    # Create the Lightdash client
+    client = get_lightdash_client(api_key=settings.LIGHTDASH_API_KEY,
+                                  base_url=settings.LIGHTDASH_URL)
+    # Delete the space
+    try:
+        operator = ProjectOperatorV1(client=client)
+        operator.delete_space(project_uuid=project_uuid, space_uuid=space_uuid, dry_run=dry_run)
+    # pylint: disable=broad-except
+    except Exception as e:
+        raise RuntimeError(f'Failed to delete space: {e}') from e
+
 
 @project_v1_app.command('share-space-access')
 def share_space_access(
