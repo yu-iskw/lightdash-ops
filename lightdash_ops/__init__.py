@@ -1,6 +1,3 @@
-"""
-The CLI enables us to operate resources on Lightdash.
-"""
 #  Licensed to the Apache Software Foundation (ASF) under one or more
 #  contributor license agreements.  See the NOTICE file distributed with
 #  this work for additional information regarding copyright ownership.
@@ -16,5 +13,8 @@ The CLI enables us to operate resources on Lightdash.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #
+"""
+The CLI enables us to operate resources on Lightdash.
+"""
 
 __version__ = '0.2.3'

@@ -168,7 +168,10 @@ class ProjectOperatorV1(BaseModel):
                 project_uuid=project_uuid,
                 space_uuid=space_uuid,
             )
-            logger.info(f'Removed {space_uuid}. Status code: ${response.parsed.status}')
+            if response.parsed is not None:
+                logger.info(f'Removed {space_uuid}. Status code: ${response.parsed.status}')
+            else:
+                logger.info(f'Removed {space_uuid}.')
             return response
         return None
 
