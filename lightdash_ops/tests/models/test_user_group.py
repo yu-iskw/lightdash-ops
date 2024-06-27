@@ -17,8 +17,6 @@
 import json
 import unittest
 
-from pydantic import EmailStr
-
 from lightdash_ops.models.user_group import GroupMember, UserGroup
 
 
@@ -42,9 +40,9 @@ class TestUserGroup(unittest.TestCase):
             name='test group',
             uuid='dummy-uuid',
             members=[
-                GroupMember(email=EmailStr('test@example.com')),
+                GroupMember(email='test@example.com'),
                 GroupMember(
-                    email=EmailStr('test2@example.com'),
+                    email='test2@example.com',
                     uuid='dummy-uuid',
                 ),
             ],
@@ -69,11 +67,11 @@ class TestGroupMember(unittest.TestCase):
         # pylint: disable=invalid-name
         # Create the project member
         email = 'test@example.com'
-        group_member = GroupMember(email=EmailStr(email))
+        group_member = GroupMember(email=email)
         self.assertEqual(group_member.email, email)
 
     def test_json_1(self):
-        group_member = GroupMember(email=EmailStr('test@example.com'))
+        group_member = GroupMember(email='test@example.com')
         expected = {'email': 'test@example.com', 'uuid': None}
         self.assertDictEqual(expected, json.loads(group_member.json()))
 
@@ -82,7 +80,7 @@ class TestGroupMember(unittest.TestCase):
 
         # Test
         group_member = GroupMember(
-            email=EmailStr('test@example.com'),
+            email='test@example.com',
             uuid='dummy-uuid',
         )
         expected = {'email': 'test@example.com', 'uuid': 'dummy-uuid'}

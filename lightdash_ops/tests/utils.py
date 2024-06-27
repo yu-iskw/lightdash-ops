@@ -17,23 +17,35 @@
 import os
 from typing import Optional
 
-from lightdash_client import AuthenticatedClient
+from lightdash_ops.lightdash.v1.client import LightdashClient
 
 
-def has_lightdash_api_key() -> bool:
+def get_lightdash_api_key() -> Optional[str]:
+    """Get the LIGHTDASH_API_KEY environment variable"""
+    return os.getenv('LIGHTDASH_API_KEY')
+
+
+def get_base_url() -> str:
+    """Get the base URL for the Lightdash API"""
+    return os.getenv('LIGHTDASH_URL', 'https://app.lightdash.cloud')
+
+
+def can_call_api() -> bool:
     """Check if the LIGHTDASH_API_KEY environment variable is set
 
     The function is used to skip tests that require a valid API key.
     """
-    if os.getenv('LIGHTDASH_API_KEY') is not None:
+    if get_lightdash_api_key() is not None and get_base_url() is not None:
         return True
     return False
 
 
 def has_lightdash_project_uuid() -> bool:
     """Check if APi key and project UUID environment variables are set"""
-    if (os.getenv('LIGHTDASH_API_KEY') is not None
-            and os.getenv('LIGHTDASH_PROJECT_UUID') is not None):
+    if (
+        os.getenv('LIGHTDASH_API_KEY') is not None
+        and os.getenv('LIGHTDASH_PROJECT_UUID') is not None
+    ):
         return True
     return False
 
@@ -43,11 +55,9 @@ def get_lightdash_project_uuid() -> Optional[str]:
     return os.getenv('LIGHTDASH_PROJECT_UUID')
 
 
-def get_test_client(base_url='https://app.lightdash.cloud',
-                    api_key: str = os.getenv('LIGHTDASH_API_KEY', '')):
-    """Get a test client for the Lightdash API
-
-    The function is used to skip tests that require a valid API key.
-    """
-    client = AuthenticatedClient(base_url=base_url, token=api_key)
-    return client
+def get_test_lightdash_client() -> LightdashClient:
+    """Get a test client for the Lightdash API"""
+    return LightdashClient(
+        token=get_lightdash_api_key(),
+        base_url=get_base_url(),
+    )

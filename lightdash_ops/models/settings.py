@@ -16,7 +16,8 @@
 
 from functools import lru_cache
 
-from pydantic import BaseSettings, Field
+from pydantic import Field
+from pydantic_settings import BaseSettings
 
 
 class LightdashOpsSettings(BaseSettings):
