@@ -55,7 +55,7 @@ class TestGetAuthenticatedUser(unittest.TestCase):
             'isSetupComplete': True,
             'role': 'admin',
             'isActive': True,
-            'additionalProperties': {}
+            'additionalProperties': {},
         }
 
         response = GetAuthenticatedUserApiV1Response(**response_data)

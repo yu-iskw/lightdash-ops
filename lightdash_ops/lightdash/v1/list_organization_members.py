@@ -27,13 +27,17 @@ class ListOrganizationMembersApiV1Response(BaseResponseModel):
         isInviteExpired: bool = Field(..., description='Whether the invite is expired')
         isActive: bool = Field(..., description='Whether the member is active')
         role: str = Field(..., description='The role of the member')
-        organizationUuid: str = Field(..., description='The unique identifier of the organization')
+        organizationUuid: str = Field(
+            ..., description='The unique identifier of the organization'
+        )
         email: str = Field(..., description='The email of the member')
         lastName: str = Field(..., description='The last name of the member')
         firstName: str = Field(..., description='The first name of the member')
         userUuid: str = Field(..., description='The unique identifier of the user')
 
-    members: List[Member] = Field(..., default_factory=list, description='List of members')
+    members: List[Member] = Field(
+        ..., default_factory=list, description='List of members'
+    )
     status: str = Field(..., description='The status of the response')
 
     @classmethod
@@ -45,7 +49,9 @@ class ListOrganizationMembersApiV1Response(BaseResponseModel):
         return cls.from_results(results, status)
 
     @classmethod
-    def from_results(cls, results: dict, status: str) -> 'ListOrganizationMembersApiV1Response':
+    def from_results(
+        cls, results: dict, status: str
+    ) -> 'ListOrganizationMembersApiV1Response':
         members = [cls.Member(**member) for member in results]
         return cls(members=members, status=status)
 

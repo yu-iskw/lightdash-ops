@@ -34,7 +34,9 @@ class ListOrganizationProjectsApiV1Response(BaseResponseModel):
             ..., description='The unique identifier of the project'
         )
 
-    projects: List[Project] = Field(..., default_factory=list, description='List of projects')
+    projects: List[Project] = Field(
+        ..., default_factory=list, description='List of projects'
+    )
 
     @classmethod
     def from_response(

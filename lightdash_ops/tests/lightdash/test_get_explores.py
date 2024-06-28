@@ -31,7 +31,9 @@ class TestGetExplores(unittest.TestCase):
 
         get_explores = GetExplores(client=client)
         for project in list_organization_projects_response.projects[:1]:
-            get_explores_response = get_explores.request(projectUuid=project.projectUuid)
+            get_explores_response = get_explores.request(
+                projectUuid=project.projectUuid
+            )
             self.assertIsInstance(get_explores_response, GetExploresApiV1Response)
             # Test properties of the response
             for explore in get_explores_response.explores:
@@ -54,11 +56,13 @@ class TestGetExplores(unittest.TestCase):
                 'databaseName': 'db1',
                 'schemaName': 'schema1',
                 'description': 'Description of explore1',
-                'errors': []
+                'errors': [],
             }
         ]
 
-        response_model = GetExploresApiV1Response.from_results(results=results, status='ok')
+        response_model = GetExploresApiV1Response.from_results(
+            results=results, status='ok'
+        )
         self.assertTrue(len(response_model.explores) >= 0)  # Fix the length check
         if len(response_model.explores) > 0:
             for explore in response_model.explores:

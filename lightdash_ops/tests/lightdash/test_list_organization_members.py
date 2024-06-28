@@ -47,11 +47,13 @@ class TestListOrganizationMembers(unittest.TestCase):
                 'email': 'user@example.com',
                 'lastName': 'Doe',
                 'firstName': 'John',
-                'userUuid': '123e4567-e89b-12d3-a456-426614174001'
+                'userUuid': '123e4567-e89b-12d3-a456-426614174001',
             }
         ]
 
-        response_model = ListOrganizationMembersApiV1Response.from_results(results=results, status='success')
+        response_model = ListOrganizationMembersApiV1Response.from_results(
+            results=results, status='success'
+        )
         self.assertTrue(len(response_model.members) >= 0)  # Fix the length check
         if len(response_model.members) > 0:
             for member in response_model.members:

@@ -45,7 +45,9 @@ class GetProjectApiV1Response(BaseResponseModel):
     type: str = Field(..., description='The type of the project')
     name: str = Field(..., description='The name of the project')
     projectUuid: str = Field(..., description='The unique identifier of the project')
-    organizationUuid: str = Field(..., description='The unique identifier of the organization')
+    organizationUuid: str = Field(
+        ..., description='The unique identifier of the organization'
+    )
 
 
 class GetProject(BaseLightdashApiCaller):

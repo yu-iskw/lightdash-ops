@@ -37,9 +37,11 @@ def safe_load_yaml(path: str):
 def dump_yaml(value: dict) -> str:
     """Dump a yaml file safely"""
     ruamel_yaml = ruamel.yaml.YAML(typ='safe')
-    ruamel_yaml.explicit_start = True  # type: ignore[assignment]
-    ruamel_yaml.preserve_quotes = True  # type: ignore[assignment]
+    ruamel_yaml.width = 5000
+    ruamel_yaml.explicit_start = False
+    ruamel_yaml.preserve_quotes = True
     ruamel_yaml.indent(mapping=2, sequence=4, offset=2)
+    ruamel_yaml.compact(seq_seq=False, seq_map=False)
     with StringIO() as stream:
         ruamel_yaml.dump(value, stream)
         return stream.getvalue()

@@ -31,7 +31,9 @@ class TestGetOrganizationMemberByUuid(unittest.TestCase):
 
         get_organization_member_by_uuid = GetOrganizationMemberByUuid(client=client)
         for organization_member in organization_members_response.members[:5]:
-            response = get_organization_member_by_uuid.request(userUuid=organization_member.userUuid)
+            response = get_organization_member_by_uuid.request(
+                userUuid=organization_member.userUuid
+            )
             self.assertIsInstance(response, GetOrganizationMemberByUuidApiV1Response)
             # Test properties of the response
             self.assertIsInstance(response.isInviteExpired, (bool, type(None)))

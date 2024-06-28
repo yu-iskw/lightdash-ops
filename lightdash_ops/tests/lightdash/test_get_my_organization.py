@@ -39,7 +39,7 @@ class TestGetMyOrganization(unittest.TestCase):
             'needsProject': True,
             'chartColors': ['#FFFFFF', '#000000'],
             'name': 'Test Organization',
-            'organizationUuid': 'abcd-efgh-ijkl'
+            'organizationUuid': 'abcd-efgh-ijkl',
         }
 
         response = GetOrganizationApiV1Response(**response_data)

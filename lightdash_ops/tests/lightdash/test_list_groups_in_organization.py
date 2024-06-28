@@ -39,11 +39,13 @@ class TestListGroupsInOrganization(unittest.TestCase):
                 'organizationUuid': '123e4567-e89b-12d3-a456-426614174000',
                 'createdAt': '2023-01-01T00:00:00Z',
                 'name': 'Engineering',
-                'uuid': '123e4567-e89b-12d3-a456-426614174001'
+                'uuid': '123e4567-e89b-12d3-a456-426614174001',
             }
         ]
 
-        response_model = ListGroupsInOrganizationApiV1Response.from_results(results=results, status='ok')
+        response_model = ListGroupsInOrganizationApiV1Response.from_results(
+            results=results, status='ok'
+        )
         self.assertTrue(len(response_model.groups) >= 0)  # Fix the length check
         if len(response_model.groups) > 0:
             for group in response_model.groups:

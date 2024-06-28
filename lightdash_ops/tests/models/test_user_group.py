@@ -56,7 +56,7 @@ class TestUserGroup(unittest.TestCase):
             ],
             'name': 'test group',
             'organization_uuid': None,
-            'uuid': 'dummy-uuid'
+            'uuid': 'dummy-uuid',
         }
         self.assertDictEqual(expected, json.loads(group.json()))
 

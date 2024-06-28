@@ -24,7 +24,9 @@ from lightdash_ops.lightdash.v1.client import (BaseLightdashApiCaller,
 # pylint: disable=invalid-name
 class ListGroupsInOrganizationApiV1Response(BaseResponseModel):
     class Group(BaseModel):
-        organizationUuid: str = Field(..., description='The unique identifier of the organization')
+        organizationUuid: str = Field(
+            ..., description='The unique identifier of the organization'
+        )
         createdAt: str = Field(..., description='The creation date of the group')
         name: str = Field(..., description='The name of the group')
         uuid: str = Field(..., description='The unique identifier of the group')
@@ -41,7 +43,9 @@ class ListGroupsInOrganizationApiV1Response(BaseResponseModel):
         return cls.from_results(results, status)
 
     @classmethod
-    def from_results(cls, results: dict, status: str) -> 'ListGroupsInOrganizationApiV1Response':
+    def from_results(
+        cls, results: dict, status: str
+    ) -> 'ListGroupsInOrganizationApiV1Response':
         groups = [cls.Group(**group) for group in results]
         return cls(groups=groups, status=status)
 

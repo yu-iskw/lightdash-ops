@@ -58,7 +58,9 @@ class CreateSpaceInProjectApiV1Response(BaseResponseModel):
 
     @classmethod
     @override
-    def from_response(cls, response: requests.Response) -> 'CreateSpaceInProjectApiV1Response':
+    def from_response(
+        cls, response: requests.Response
+    ) -> 'CreateSpaceInProjectApiV1Response':
         space_data = response.json().get('results', {})
         return cls(**space_data)
 

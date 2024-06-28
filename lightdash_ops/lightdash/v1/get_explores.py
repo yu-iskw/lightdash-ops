@@ -26,22 +26,31 @@ class GetExploresApiV1Response(BaseResponseModel):
     class Explore(BaseModel):
         class Config:
             extra = 'allow'
+
         name: str = Field(..., description='The name of the explore')
         label: Optional[str] = Field(None, description='The label of the explore')
-        groupLabel: Optional[str] = Field(None, description='The group label of the explore')
-        tags: Optional[List[str]] = Field(default_factory=list, description='The tags associated with the explore')
+        groupLabel: Optional[str] = Field(
+            None, description='The group label of the explore'
+        )
+        tags: Optional[List[str]] = Field(
+            default_factory=list, description='The tags associated with the explore'
+        )
         databaseName: str = Field(..., description='The database name of the explore')
         schemaName: str = Field(..., description='The schema name of the explore')
-        description: Optional[str] = Field(None, description='The description of the explore')
-        errors: Optional[List[dict]] = Field(default_factory=list, description='The errors associated with the explore')
+        description: Optional[str] = Field(
+            None, description='The description of the explore'
+        )
+        errors: Optional[List[dict]] = Field(
+            default_factory=list, description='The errors associated with the explore'
+        )
 
-    explores: List[Explore] = Field(..., default_factory=list, description='List of explores')
+    explores: List[Explore] = Field(
+        ..., default_factory=list, description='List of explores'
+    )
     status: str = Field(..., description='The status of the response')
 
     @classmethod
-    def from_response(
-        cls, response: requests.Response
-    ) -> 'GetExploresApiV1Response':
+    def from_response(cls, response: requests.Response) -> 'GetExploresApiV1Response':
         results = response.json().get('results', [])
         status = response.json().get('status', 'unknown')
         return cls.from_results(results, status)

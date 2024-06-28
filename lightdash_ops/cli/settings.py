@@ -14,12 +14,14 @@
 #  limitations under the License.
 #
 
-import typer
+import click
 
 from lightdash_ops.models.settings import get_settings
 
-manager_settings_app = typer.Typer()
 
+@click.group()
+def manager_settings_app():
+    pass
 
 @manager_settings_app.command('get')
 def get():

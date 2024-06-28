@@ -14,13 +14,18 @@
 #  limitations under the License.
 #
 
-import typer
+import click
 
+from lightdash_ops.cli.exposures import exposures_app
 from lightdash_ops.cli.settings import manager_settings_app
 
-app = typer.Typer()
 
-app.add_typer(manager_settings_app, name='settings')
+@click.group()
+def app():
+    pass
+
+app.add_command(manager_settings_app, name='settings')
+app.add_command(exposures_app, name='exposures')
 
 if __name__ == '__main__':
     app()
