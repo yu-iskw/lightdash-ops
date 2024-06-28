@@ -84,7 +84,6 @@ class OrganizationOperatorV1(BaseModel):
         # Format
         formatted_members = []
         for member in response.members:
-            print(member)
             formatted_members.append(
                 OrganizationMember(
                     email=member.email,
