@@ -20,8 +20,13 @@ import loguru
 from lightdash_client import AuthenticatedClient
 from pydantic import BaseModel, EmailStr, Field
 
-from lightdash_ops.lightdash.organization import (
-    get_organization_members, get_projects, update_organization_member_role)
+from lightdash_ops.lightdash.v1.client import LightdashClient
+from lightdash_ops.lightdash.v1.get_organization_member_by_uuid import \
+    GetOrganizationMemberByUuid
+from lightdash_ops.lightdash.v1.list_organization_members import \
+    ListOrganizationMembers
+from lightdash_ops.lightdash.v1.list_organization_projects import \
+    ListOrganizationProjects
 from lightdash_ops.models.organization import (OrganizationMember,
                                                OrganizationRole)
 from lightdash_ops.models.project import Project, ProjectType
@@ -31,12 +36,12 @@ logger = loguru.logger
 
 class CachedOrganizationMembers:
     """Cached organization members"""
+
     # pylint: disable=invalid-name
-    __members: List[OrganizationMember] = None  # type: ignore[assignment]
+    __members: Optional[List[OrganizationMember]] = None
 
     @classmethod
-    def get_members(
-            cls, client: AuthenticatedClient) -> List[OrganizationMember]:
+    def get_members(cls, client: AuthenticatedClient) -> List[OrganizationMember]:
         """Get all members of an organization"""
         if cls.__members is None:
             # Get all members in the organization if they are not cached
@@ -49,7 +54,8 @@ class OrganizationOperatorV1(BaseModel):
     """
     An operator class to deal with Lightdash projects
     """
-    client: AuthenticatedClient = Field(..., description='Lightdash client')
+
+    client: LightdashClient = Field(..., description='Lightdash client')
 
     class Config:
         arbitrary_types_allowed = True
@@ -57,13 +63,14 @@ class OrganizationOperatorV1(BaseModel):
     def get_projects(self) -> List[Project]:
         """Get all projects in an organization"""
         formatted_projects = []
-        projects = get_projects(client=self.client)
-        for project in projects:
+        list_organization_projects = ListOrganizationProjects(client=self.client)
+        response = list_organization_projects.request()
+        for project in response.projects:
             formatted_projects.append(
                 Project(
                     type=ProjectType(str(project.type)),
                     name=project.name,
-                    uuid=project.project_uuid,
+                    uuid=project.projectUuid,
                 )
             )
         return formatted_projects
@@ -72,19 +79,25 @@ class OrganizationOperatorV1(BaseModel):
     def get_organization_members(self) -> List[OrganizationMember]:
         """Get all members in an organization"""
         # Get all members
-        members = get_organization_members(client=self.client)
+        list_organization_members = ListOrganizationMembers(client=self.client)
+        response = list_organization_members.request()
         # Format
         formatted_members = []
-        for member in members:
-            formatted_members.append(OrganizationMember(
-                email=EmailStr(member.email),
-                uuid=member.user_uuid,
-                role=OrganizationRole(member.role),
-                is_active=member.is_active,
-            ))
+        for member in response.members:
+            print(member)
+            formatted_members.append(
+                OrganizationMember(
+                    email=member.email,
+                    uuid=member.userUuid,
+                    role=OrganizationRole(member.role),
+                    is_active=member.isActive,
+                )
+            )
         return formatted_members
 
-    def get_organization_member_by_email(self, email: str) -> Optional[OrganizationMember]:
+    def get_organization_member_by_email(
+        self, email: str
+    ) -> Optional[OrganizationMember]:
         """Get a member in an organization by email"""
         organization_members = CachedOrganizationMembers.get_members(client=self.client)
         # pylint: disable=not-an-iterable
@@ -93,27 +106,15 @@ class OrganizationOperatorV1(BaseModel):
                 return member
         return None
 
-    def get_organization_member_by_uuid(self, user_uuid: str) -> Optional[OrganizationMember]:
+    def get_organization_member_by_uuid(
+        self, user_uuid: str
+    ) -> Optional[OrganizationMember]:
         """Get a member in an organization by user UUID"""
-        organization_members = CachedOrganizationMembers.get_members(client=self.client)
-        # pylint: disable=not-an-iterable
-        for member in organization_members:
-            if member.uuid == user_uuid:
-                return member
-        return None
-
-    def update_member_role(self, user_uuid: str, role: OrganizationRole, dry_run: bool = False):
-        """Update a member's role"""
-        logger.info(f'Will update member {user_uuid} to role {role}')
-        if dry_run is False:
-            response = update_organization_member_role(
-                client=self.client, user_uuid=user_uuid, role=role)
-            return response
-        return None
-
-    def update_member_role_by_email(self, email: str, role: OrganizationRole, dry_run: bool = False):
-        """Update a member's role by email"""
-        member = self.get_organization_member_by_email(email=email)
-        if member is None:
-            raise ValueError(f'No member with email {email}')
-        return self.update_member_role(user_uuid=member.uuid, role=role, dry_run=dry_run)
+        get_member_by_uuid = GetOrganizationMemberByUuid(client=self.client)
+        response = get_member_by_uuid.request(user_uuid=user_uuid)
+        return OrganizationMember(
+            email=EmailStr(response.email),
+            uuid=response.userUuid,
+            role=response.role,
+            is_active=response.isActive,
+        )

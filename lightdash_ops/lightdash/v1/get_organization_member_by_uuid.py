@@ -49,9 +49,9 @@ class GetOrganizationMemberByUuid(BaseLightdashApiCaller):
     request_type: ClassVar[RequestType] = RequestType.GET
     path: ClassVar[str] = '/api/v1/org/users/{userUuid}'
 
-    def request(self, userUuid: str) -> GetOrganizationMemberByUuidApiV1Response:
+    def request(self, user_uuid: str) -> GetOrganizationMemberByUuidApiV1Response:
         response = self.client.call(
             request_type=RequestType.GET,
-            path=self.__class__.path.format(userUuid=userUuid),
+            path=self.__class__.path.format(userUuid=user_uuid),
         )
         return GetOrganizationMemberByUuidApiV1Response.from_response(response=response)

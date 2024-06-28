@@ -17,14 +17,14 @@
 import click
 
 from lightdash_ops.cli.exposures import exposures_app
-from lightdash_ops.cli.settings import manager_settings_app
+from lightdash_ops.cli.organization_v1 import organization_app
 
 
 @click.group()
 def app():
     pass
 
-app.add_command(manager_settings_app, name='settings')
+app.add_command(organization_app, name='organization')
 app.add_command(exposures_app, name='exposures')
 
 if __name__ == '__main__':

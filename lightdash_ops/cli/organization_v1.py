@@ -15,76 +15,57 @@
 #
 
 import json
-from typing import Annotated
 
+import click
 import loguru
-import typer
 
-from lightdash_ops.lightdash.client import get_lightdash_client
+from lightdash_ops.lightdash.v1.client import LightdashClient
 from lightdash_ops.models.organization import OrganizationRole
 from lightdash_ops.models.settings import get_settings
 from lightdash_ops.operators.organization_v1 import OrganizationOperatorV1
 
 logger = loguru.logger
 
-organization_v1_app = typer.Typer()
+@click.group()
+def organization_app():
+    pass
 
 
-@organization_v1_app.command('get-projects')
+@organization_app.command('get-projects')
 def get_projects():
     """Get all projects in an organization"""
     # Get the settings
     settings = get_settings()
     # Create the Lightdash client
-    client = get_lightdash_client(api_key=settings.LIGHTDASH_API_KEY,
-                                  base_url=settings.LIGHTDASH_URL)
+    client = LightdashClient(
+        base_url=settings.LIGHTDASH_URL,
+        token=settings.LIGHTDASH_API_KEY,
+    )
     # Create the operator
     operator = OrganizationOperatorV1(client=client)
     # Get all projects
     projects = operator.get_projects()
-    projects_json = json.dumps([p.dict() for p in projects], indent=2)
-    print(projects_json)
+    projects_json = json.dumps([p.model_dump(exclude_none=True, exclude_unset=True) for p in projects], indent=2)
+    click.echo(projects_json)
 
 
-@organization_v1_app.command('get-members')
-def get_members(
-        role: Annotated[OrganizationRole, typer.Option(help='project role')] = None  # type: ignore[assignment]
-):
+@organization_app.command('get-members')
+@click.option('--role', type=click.Choice([role.value for role in OrganizationRole]), help='Project role')
+def get_members(role):
     """Get members in an organization as JSON"""
     # Get the settings
     settings = get_settings()
     # Create the Lightdash client
-    client = get_lightdash_client(api_key=settings.LIGHTDASH_API_KEY,
-                                  base_url=settings.LIGHTDASH_URL)
+    client = LightdashClient(
+        base_url=settings.LIGHTDASH_URL,
+        token=settings.LIGHTDASH_API_KEY,
+    )
     # Create the operator
     operator = OrganizationOperatorV1(client=client)
     # Get all members in the organization
     members = operator.get_organization_members()
     if role is not None:
-        members = [member for member in members if member.role == role]
+        members = [member for member in members if member.role.value == role]
     # Format output
-    formatted_members = [member.dict() for member in members]
-    print(json.dumps(formatted_members, indent=2))
-
-
-@organization_v1_app.command('grant-role')
-def grant_member_role(
-        email: Annotated[str, typer.Option(help='member email')],
-        role: Annotated[OrganizationRole, typer.Option(help='project role')] = None  # type: ignore[assignment]
-):
-    """Grant a member a role in the organization"""
-    # Get the settings
-    settings = get_settings()
-    # Create the Lightdash client
-    client = get_lightdash_client(api_key=settings.LIGHTDASH_API_KEY,
-                                  base_url=settings.LIGHTDASH_URL)
-    # Create the operator
-    operator = OrganizationOperatorV1(client=client)
-    # Grant the role to the member
-    try:
-        operator.update_member_role_by_email(email=email, role=role)
-        logger.info(f'Granted {email} the role {role}')
-    # pylint: disable=broad-except
-    except Exception as e:
-        logger.error(f'Failed to grant {email} the role {role}')
-        logger.error(e)
+    formatted_members = [member.model_dump(exclude_none=True, exclude_unset=True) for member in members]
+    click.echo(json.dumps(formatted_members, indent=2))
