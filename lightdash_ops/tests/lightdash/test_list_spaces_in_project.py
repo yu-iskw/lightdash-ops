@@ -36,7 +36,7 @@ class TestListSpacesInProject(unittest.TestCase):
         for project in list_organization_projects_response.projects:
             list_spaces_in_project = ListSpacesInProject(client=client)
             list_spaces_in_project_response = list_spaces_in_project.request(
-                projectUuid=project.projectUuid
+                project_uuid=project.projectUuid
             )
             self.assertIsInstance(
                 list_spaces_in_project_response, ListSpacesInProjectApiV1Response

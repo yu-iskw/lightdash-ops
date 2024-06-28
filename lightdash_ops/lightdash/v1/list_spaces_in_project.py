@@ -76,9 +76,9 @@ class ListSpacesInProject(BaseLightdashApiCaller):
     request_type: ClassVar[RequestType] = RequestType.GET
     path: ClassVar[str] = '/api/v1/projects/{projectUuid}/spaces'
 
-    def request(self, projectUuid: str) -> ListSpacesInProjectApiV1Response:
+    def request(self, project_uuid: str) -> ListSpacesInProjectApiV1Response:
         response = self.client.call(
             request_type=self.__class__.request_type,
-            path=self.__class__.path.format(projectUuid=projectUuid),
+            path=self.__class__.path.format(projectUuid=project_uuid),
         )
         return ListSpacesInProjectApiV1Response.from_response(response=response)
