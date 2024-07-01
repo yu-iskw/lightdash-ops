@@ -11,6 +11,7 @@ repos:
     rev: v4.4.0
     hooks:
       - id: end-of-file-fixer
+        # Ignore the style check of docs/cli.md, as it is automatically generated
         exclude: '(docs/cli.md)'
       - id: trailing-whitespace
       - id: check-json
