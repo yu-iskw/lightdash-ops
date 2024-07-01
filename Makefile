@@ -26,12 +26,14 @@ build:
 .PHONY: lint
 lint:
 	pre-commit run --all-files
-	bash dev/lint_python.sh
 
 # Run the unit tests.
 .PHONEY: test
 test:
 	bash ./dev/test_python.sh
+
+test-with-api:
+	LIGHTDASH_API_KEY="..." LIGHTDASH_URL="..." bash ./dev/test_python.sh
 
 .PHONEY: update-resources
 update-resources:

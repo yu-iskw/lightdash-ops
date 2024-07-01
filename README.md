@@ -31,6 +31,7 @@ The CLI provides many sub commands.
 Please refer to the detailed documentation in [docs/cli.ms](./docs/cli.md).
 
 #### Example
+
 The subsequent command is used to get all members in an organization.
 
 ```commandline

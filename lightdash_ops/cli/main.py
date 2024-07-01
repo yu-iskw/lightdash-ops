@@ -14,17 +14,52 @@
 #  limitations under the License.
 #
 
-import typer
+import textwrap
 
-from lightdash_ops.cli.organization_v1 import organization_v1_app
-from lightdash_ops.cli.project_v1 import project_v1_app
-from lightdash_ops.cli.settings import manager_settings_app
+import click
 
-app = typer.Typer()
+from lightdash_ops.cli.exposures import exposures_app
+from lightdash_ops.cli.organization_v1 import organization_app
+from lightdash_ops.models.settings import get_settings
 
-app.add_typer(manager_settings_app, name='settings')
-app.add_typer(organization_v1_app, name='organization')
-app.add_typer(project_v1_app, name='project')
+
+def recursive_help(cmd, parent=None, depth=1):
+    ctx = click.core.Context(cmd, info_name=cmd.name, parent=parent)
+    head_element = '#' * depth
+    command_doc = textwrap.dedent(f"""
+    {head_element} {cmd.name}
+
+    {textwrap.dedent(cmd.get_help(ctx))}
+
+    """
+    ).lstrip()
+    print(command_doc)
+    commands = getattr(cmd, 'commands', {})
+    for sub in commands.values():
+        recursive_help(sub, ctx, depth + 1)
+
+
+@click.group('main')
+def app():
+    pass
+
+
+@app.command('dump-help')
+def dump_help():
+    """Recursively dump the help of all commands."""
+    recursive_help(app)
+
+
+@app.command('dump-settings')
+def dump_settings():
+    """Dump the settings of the CLI."""
+    settings = get_settings()
+    for k, v in settings.model_dump().items():
+        print(f'{k}={v}')
+
+
+app.add_command(organization_app, name='organization')
+app.add_command(exposures_app, name='exposures')
 
 if __name__ == '__main__':
     app()

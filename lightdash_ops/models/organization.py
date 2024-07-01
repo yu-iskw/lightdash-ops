@@ -17,7 +17,6 @@
 import enum
 from typing import List
 
-from lightdash_client.models import OrganizationMemberRole
 from pydantic import BaseModel, EmailStr, Field, ValidationError, validator
 
 
@@ -32,10 +31,6 @@ class OrganizationRole(str, enum.Enum):
 
     def __str__(self) -> str:
         return self.value
-
-    def to_lightdash_expression(self) -> OrganizationMemberRole:
-        """Convert to lightdash role"""
-        return OrganizationMemberRole(self.value)
 
 
 class OrganizationMember(BaseModel):

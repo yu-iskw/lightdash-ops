@@ -17,7 +17,7 @@
 import enum
 from typing import List, Optional
 
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 
 from lightdash_ops.models.user_group import LightdashUser
 
@@ -60,12 +60,12 @@ class Space(BaseModel):
     allow_manual_management: bool = Field(description='Allow manual management', default=False)
     members: List[SpaceMember] = Field(description='Space members', default_factory=list)
 
-    # pylint: disable=no-self-argument,no-self-use
-    @validator('allow_manual_management', always=True)
-    def validate_allow_manual_management_and_visibility(cls, value, values):
+    # pylint: disable=no-self-argument
+    @field_validator('allow_manual_management', mode='before')
+    def validate_allow_manual_management_and_visibility(cls, value, info):
         """Check if visibility is public and allow_manual_management is False"""
         allow_manual_management = value
-        visibility = values.get('visibility')
+        visibility = info.data.get('visibility')
         if visibility == SpaceVisibility.PRIVATE and allow_manual_management is True:
             raise ValueError('allow_manual_management must be False if visibility is public')
         return value

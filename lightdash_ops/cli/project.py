@@ -22,18 +22,19 @@ import loguru
 from lightdash_ops.lightdash.v1.client import LightdashClient
 from lightdash_ops.models.organization import OrganizationRole
 from lightdash_ops.models.settings import get_settings
-from lightdash_ops.operators.organization_v1 import OrganizationOperatorV1
+from lightdash_ops.operators.project_v1 import ProjectOperatorV1
 
 logger = loguru.logger
 
-@click.group('organization')
-def organization_app():
+@click.group('project')
+def project_app():
     pass
 
 
-@organization_app.command('get-projects')
-def get_projects():
-    """Get all projects in an organization"""
+@project_app.command('get-spaces')
+@click.option('--project_uuid', required=True, type=str, help='The uuid of the project')
+def get_spaces(project_uuid):
+    """Get all spaces in a project"""
     # Get the settings
     settings = get_settings()
     # Create the Lightdash client
@@ -42,17 +43,18 @@ def get_projects():
         token=settings.LIGHTDASH_API_KEY,
     )
     # Create the operator
-    operator = OrganizationOperatorV1(client=client)
-    # Get all projects
-    projects = operator.get_projects()
-    projects_json = json.dumps([p.model_dump(exclude_none=True, exclude_unset=True) for p in projects], indent=2)
-    click.echo(projects_json)
+    operator = ProjectOperatorV1(client=client)
+    # Get all spaces in the project
+    spaces = operator.get_spaces(project_uuid=project_uuid)
+    spaces_json = json.dumps([s.model_dump(exclude_none=True, exclude_unset=True) for s in spaces], indent=2)
+    click.echo(spaces_json)
 
 
-@organization_app.command('get-members')
+@project_app.command('get-members')
 @click.option('--role', type=click.Choice([role.value for role in OrganizationRole]), help='Project role')
-def get_members(role):
-    """Get members in an organization as JSON"""
+@click.option('--project_uuid', required=True, type=str, help='The uuid of the project')
+def get_members(role, project_uuid):
+    """Get members in a project as JSON"""
     # Get the settings
     settings = get_settings()
     # Create the Lightdash client
@@ -61,9 +63,9 @@ def get_members(role):
         token=settings.LIGHTDASH_API_KEY,
     )
     # Create the operator
-    operator = OrganizationOperatorV1(client=client)
-    # Get all members in the organization
-    members = operator.get_organization_members()
+    operator = ProjectOperatorV1(client=client)
+    # Get all members in the project
+    members = operator.get_project_members(project_uuid=project_uuid)
     if role is not None:
         members = [member for member in members if member.role.value == role]
     # Format output

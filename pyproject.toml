@@ -7,34 +7,36 @@ name = "lightdash_ops"
 
 [project]
 name = "lightdash-ops"
-authors = [{name = "yu-iskw"}]
+authors = [{ name = "yu-iskw" }]
 readme = "README.md"
-license = {file = "LICENSE"}
-requires-python = ">=3.8.0"
+license = { file = "LICENSE" }
+requires-python = ">=3.9.0"
 classifiers = [
-    "Development Status :: 4 - Beta",
-    "Intended Audience :: Information Technology",
-    "Intended Audience :: System Administrators",
-    "Operating System :: OS Independent",
-    "Topic :: Software Development :: Libraries",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-    "License :: OSI Approved :: Apache Software License",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Typing :: Typed",
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Information Technology",
+  "Intended Audience :: System Administrators",
+  "Operating System :: OS Independent",
+  "Topic :: Software Development :: Libraries",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Typing :: Typed",
 ]
 dynamic = ["version", "description"]
 dependencies = [
-    "pydantic[dotenv] >=1.9,<2.0",
-    "loguru >=0.7.0,<1.0.0",
-    "typer>=0.9.0,<1.0.0",
-    "email-validator>=1.1.3,<2.0.0",
-    "ruamel.yaml >=0.17,<0.18",
-    # NOTE Yu created the python-based client for lightdash by generating from the swagger spec.
-    "lightdash-client-python==0.753.0",
+  "pydantic[dotenv] >=2.7,<3.0",
+  "pydantic-settings >=2.0,<3.0",
+  "requests >=2.28.0,<3.0",
+  "loguru >=0.7.0,<1.0.0",
+  "click >=8.0,<9.0",
+  "email-validator>=2.0,<3.0",
+  "ruamel.yaml >=0.17,<0.18",
 ]
 
 [project.urls]
@@ -45,34 +47,26 @@ lightdash-ops = "lightdash_ops.cli.main:app"
 
 [project.optional-dependencies]
 test = [
-    "pytest >=6.2.4,<7.0.0",
-    "py >=1.11.0,<2.0.0",
-    "parameterized >=0.7.0, <1.0.0",
-    "pylint >=2.12.0",
-    "mypy >=1.3.0,<2.0.0",
-    "flake8 >=3.8.3,<4.0.0",
-    "black ==21.9b0",
-    "isort >=5.0.6,<6.0.0",
-    "yapf >=0.29.0",
+  "pytest >=7.0.0,<8.0.0",
+  "py >=1.11.0,<2.0.0",
+  "parameterized >=0.7.0, <1.0.0",
+  "pylint >=2.12.0",
+  "mypy >=1.3.0,<2.0.0",
+  "flake8 >=3.8.3,<4.0.0",
+  "black ==21.9b0",
+  "isort >=5.0.6,<6.0.0",
+  "yapf >=0.29.0",
 ]
 dev = [
-    "flit ==3.7.1",
-    "build ==0.7.0",
-    "yapf >=0.29.0",
-    "pyyaml >=5.3",
-    "types-PyYAML >=6.0,<7.0",
-    "pdoc3 >=0.9.2",
-    "pre-commit >=2.15.0",
-    "safety >=2.0,<3.0",
+  "flit ==3.7.1",
+  "build ==0.7.0",
+  "yapf >=0.29.0",
+  "pyyaml >=5.3",
+  "yamllint >=1.35.1,<2.0.0",
+  "types-PyYAML >=6.0,<7.0",
+  "pdoc3 >=0.9.2",
+  "pre-commit >=2.15.0",
+  "safety >=2.0,<3.0",
 ]
 doc = [
-    # https://github.com/tiangolo/typer-cli/pull/120
-    # "typer-cli",
 ]
-
-[tool.mypy]
-mypy_path = "./lightdash_ops"
-ignore_missing_imports = true
-
-[tool.autoflake]
-check = true
