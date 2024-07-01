@@ -17,7 +17,6 @@
 import datetime
 import enum
 
-from lightdash_client.models import ProjectMemberRole
 from pydantic import Field, FutureDate, ValidationError, validator
 
 from lightdash_ops.models.base_user import LightdashUser
@@ -36,10 +35,6 @@ class ProjectRole(str, enum.Enum):
 
     def __str__(self) -> str:
         return self.value
-
-    def to_lightdash_expression(self) -> ProjectMemberRole:
-        """Convert to lightdash role"""
-        return ProjectMemberRole(self.value)
 
 
 class ProjectMember(LightdashUser):

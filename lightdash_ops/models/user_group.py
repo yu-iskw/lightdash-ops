@@ -17,7 +17,7 @@
 import datetime
 from typing import List
 
-from pydantic import BaseModel, Field, ValidationError, validator
+from pydantic import BaseModel, Field, ValidationError, field_validator
 
 from lightdash_ops.models.base_user import LightdashUser
 
@@ -35,8 +35,8 @@ class UserGroup(BaseModel):
     organization_uuid: str = Field(description='Organization UUID', default=None)
     created_at: datetime.datetime = Field(description='User group created at', default=None)
 
-    # pylint: disable=no-self-argument,no-self-use
-    @validator('members')
+    # pylint: disable=no-self-argument
+    @field_validator('members')
     def check_duplicated_members(cls, v):
         """Check if there are duplicated members"""
         if len(v) != len(set(v)):

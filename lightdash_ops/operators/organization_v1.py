@@ -17,7 +17,6 @@
 from typing import List, Optional
 
 import loguru
-from lightdash_client import AuthenticatedClient
 from pydantic import BaseModel, EmailStr, Field
 
 from lightdash_ops.lightdash.v1.client import LightdashClient
@@ -41,7 +40,7 @@ class CachedOrganizationMembers:
     __members: Optional[List[OrganizationMember]] = None
 
     @classmethod
-    def get_members(cls, client: AuthenticatedClient) -> List[OrganizationMember]:
+    def get_members(cls, client: LightdashClient) -> List[OrganizationMember]:
         """Get all members of an organization"""
         if cls.__members is None:
             # Get all members in the organization if they are not cached

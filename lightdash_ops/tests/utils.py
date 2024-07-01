@@ -31,9 +31,11 @@ def get_base_url() -> str:
 
 
 def can_call_api() -> bool:
-    """Check if the LIGHTDASH_API_KEY environment variable is set
+    """Check if unit tests with actual API calls can be executed.
 
-    The function is used to skip tests that require a valid API key.
+    Those environment variables are needed to set to call the Lightdash API:
+    - LIGHTDASH_API_KEY
+    - LIGHTDASH_URL
     """
     if get_lightdash_api_key() is not None and get_base_url() is not None:
         return True
