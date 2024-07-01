@@ -26,7 +26,7 @@ from lightdash_ops.operators.project_v1 import ProjectOperatorV1
 
 logger = loguru.logger
 
-@click.group()
+@click.group('project')
 def project_app():
     pass
 

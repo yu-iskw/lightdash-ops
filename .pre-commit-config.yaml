@@ -1,8 +1,17 @@
 repos:
+  - repo: local
+    hooks:
+      # Generate the JSON schemas and the docs of the CLI
+      - id: update-resources
+        name: update-resources
+        entry: bash
+        language: system
+        args: ["./dev/update_resources.sh"]
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
       - id: end-of-file-fixer
+        exclude: '(docs/cli.md)'
       - id: trailing-whitespace
       - id: check-json
       - id: check-yaml
@@ -19,7 +28,7 @@ repos:
     hooks:
       - id: pylint
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: 'v1.3.0'
+    rev: "v1.3.0"
     hooks:
       - id: mypy
         additional_dependencies: [types-all]
@@ -40,15 +49,6 @@ repos:
     rev: v0.9.0.2
     hooks:
       - id: shellcheck
-  # - repo: local
-  #   hooks:
-  #     # Generate the JSON schemas and the docs of the CLI
-  #     - id: update-resources
-  #       name: update-resources
-  #       entry: bash
-  #       language: system
-  #       args: ["./dev/update_resources.sh"]
-
 
 ci:
   skip:

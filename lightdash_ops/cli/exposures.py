@@ -33,7 +33,7 @@ def get_default_exposure_types():
     return ['dashboard']
 
 
-@click.group()
+@click.group('exposures')
 def exposures_app():
     pass
 

@@ -26,7 +26,7 @@ from lightdash_ops.operators.organization_v1 import OrganizationOperatorV1
 
 logger = loguru.logger
 
-@click.group()
+@click.group('organization')
 def organization_app():
     pass
 

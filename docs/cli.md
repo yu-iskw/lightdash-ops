@@ -1,256 +1,107 @@
-# `lightdash-ops`
+# main
 
-**Usage**:
+    Usage: main [OPTIONS] COMMAND [ARGS]...
 
-```console
-$ lightdash-ops [OPTIONS] COMMAND [ARGS]...
-```
+Options:
+  --help  Show this message and exit.
 
-**Options**:
+Commands:
+  dump-help      Recursively dump the help of all commands.
+  dump-settings  Dump the settings of the CLI.
+  exposures
+  organization
 
-* `--install-completion`: Install completion for the current shell.
-* `--show-completion`: Show completion for the current shell, to copy it or customize the installation.
-* `--help`: Show this message and exit.
 
-**Commands**:
+## dump-help
 
-* `organization`
-* `project`
-* `settings`
+    Usage: main dump-help [OPTIONS]
 
-## `lightdash-ops organization`
+  Recursively dump the help of all commands.
 
-**Usage**:
+Options:
+  --help  Show this message and exit.
 
-```console
-$ lightdash-ops organization [OPTIONS] COMMAND [ARGS]...
-```
 
-**Options**:
+## dump-settings
 
-* `--help`: Show this message and exit.
+    Usage: main dump-settings [OPTIONS]
 
-**Commands**:
+  Dump the settings of the CLI.
 
-* `get-members`: Get members in an organization as JSON
-* `get-projects`: Get all projects in an organization
-* `grant-role`: Grant a member a role in the organization
+Options:
+  --help  Show this message and exit.
 
-### `lightdash-ops organization get-members`
 
-Get members in an organization as JSON
+## organization
 
-**Usage**:
+    Usage: main organization [OPTIONS] COMMAND [ARGS]...
 
-```console
-$ lightdash-ops organization get-members [OPTIONS]
-```
+Options:
+  --help  Show this message and exit.
 
-**Options**:
+Commands:
+  get-members   Get members in an organization as JSON
+  get-projects  Get all projects in an organization
 
-* `--role [admin|developer|editor|interactive_viewer|member|viewer]`: project role
-* `--help`: Show this message and exit.
 
-### `lightdash-ops organization get-projects`
+### get-projects
 
-Get all projects in an organization
+    Usage: main organization get-projects [OPTIONS]
 
-**Usage**:
+  Get all projects in an organization
 
-```console
-$ lightdash-ops organization get-projects [OPTIONS]
-```
+Options:
+  --help  Show this message and exit.
 
-**Options**:
 
-* `--help`: Show this message and exit.
+### get-members
 
-### `lightdash-ops organization grant-role`
+    Usage: main organization get-members [OPTIONS]
 
-Grant a member a role in the organization
+  Get members in an organization as JSON
 
-**Usage**:
+Options:
+  --role [admin|developer|editor|interactive_viewer|member|viewer]
+                                  Project role
+  --help                          Show this message and exit.
 
-```console
-$ lightdash-ops organization grant-role [OPTIONS]
-```
 
-**Options**:
+## exposures
 
-* `--email TEXT`: member email  [required]
-* `--role [admin|developer|editor|interactive_viewer|member|viewer]`: project role
-* `--help`: Show this message and exit.
+    Usage: main exposures [OPTIONS] COMMAND [ARGS]...
 
-## `lightdash-ops project`
+Options:
+  --help  Show this message and exit.
 
-**Usage**:
+Commands:
+  generate      Get all projects in an organization
+  generate-all  Generate dbt Exposures of all Lightdash projects
 
-```console
-$ lightdash-ops project [OPTIONS] COMMAND [ARGS]...
-```
 
-**Options**:
+### generate-all
 
-* `--help`: Show this message and exit.
+    Usage: main exposures generate-all [OPTIONS]
 
-**Commands**:
+  Generate dbt Exposures of all Lightdash projects
 
-* `delete-space`: Remove a space from a project
-* `get-members`: Get the members of a project as JSON
-* `get-spaces`: Get all spaces in a project as JSON
-* `grant-role`
-* `revoke-role`
-* `revoke-space-access`: Share space access with another user
-* `share-space-access`: Share space access with another user
+Options:
+  --exposure_types TEXT  The types of exposures to generate
+  --output TEXT          The path to the output directory  [required]
+  --project_names TEXT   The names of the projects to generate exposures for
+  --overwrite BOOLEAN    Overwrite the output file
+  --help                 Show this message and exit.
 
-### `lightdash-ops project delete-space`
 
-Remove a space from a project
+### generate
 
-**Usage**:
+    Usage: main exposures generate [OPTIONS]
 
-```console
-$ lightdash-ops project delete-space [OPTIONS]
-```
+  Get all projects in an organization
 
-**Options**:
+Options:
+  --project_uuid TEXT    The uuid of the project to generate exposures for
+                         [required]
+  --exposure_types TEXT  The types of exposures to generate
+  --help                 Show this message and exit.
 
-* `--project-uuid TEXT`: Lightdash project UUID  [required]
-* `--space-uuid TEXT`: Lightdash space UUID  [required]
-* `--dry-run / --no-dry-run`: Dry run if true  [default: no-dry-run]
-* `--help`: Show this message and exit.
 
-### `lightdash-ops project get-members`
-
-Get the members of a project as JSON
-
-**Usage**:
-
-```console
-$ lightdash-ops project get-members [OPTIONS]
-```
-
-**Options**:
-
-* `--project-uuid TEXT`: Lightdash project UUID  [required]
-* `--help`: Show this message and exit.
-
-### `lightdash-ops project get-spaces`
-
-Get all spaces in a project as JSON
-
-**Usage**:
-
-```console
-$ lightdash-ops project get-spaces [OPTIONS]
-```
-
-**Options**:
-
-* `--project-uuid TEXT`: Lightdash project UUID  [required]
-* `--help`: Show this message and exit.
-
-### `lightdash-ops project grant-role`
-
-**Usage**:
-
-```console
-$ lightdash-ops project grant-role [OPTIONS]
-```
-
-**Options**:
-
-* `--project-uuid TEXT`: Lightdash project UUID  [required]
-* `--role [admin|developer|editor|interactive_viewer|viewer|member]`: project role  [required]
-* `--user-email TEXT`: User email
-* `--user-uuid TEXT`: User UUID
-* `--dry-run / --no-dry-run`: Dry run if true  [default: no-dry-run]
-* `--help`: Show this message and exit.
-
-### `lightdash-ops project revoke-role`
-
-**Usage**:
-
-```console
-$ lightdash-ops project revoke-role [OPTIONS]
-```
-
-**Options**:
-
-* `--project-uuid TEXT`: Lightdash project UUID  [required]
-* `--role [admin|developer|editor|interactive_viewer|viewer|member]`: project role  [required]
-* `--user-email TEXT`: User email
-* `--user-uuid TEXT`: User UUID
-* `--dry-run / --no-dry-run`: Dry run if true  [default: no-dry-run]
-* `--help`: Show this message and exit.
-
-### `lightdash-ops project revoke-space-access`
-
-Share space access with another user
-
-**Usage**:
-
-```console
-$ lightdash-ops project revoke-space-access [OPTIONS]
-```
-
-**Options**:
-
-* `--project-uuid TEXT`: Lightdash project UUID  [required]
-* `--space-uuid TEXT`: Lightdash space UUID  [required]
-* `--user-uuid TEXT`: Lightdash user UUID  [required]
-* `--user-email TEXT`: Lightdash user email  [required]
-* `--dry-run / --no-dry-run`: Dry run if true  [default: no-dry-run]
-* `--help`: Show this message and exit.
-
-### `lightdash-ops project share-space-access`
-
-Share space access with another user
-
-**Usage**:
-
-```console
-$ lightdash-ops project share-space-access [OPTIONS]
-```
-
-**Options**:
-
-* `--project-uuid TEXT`: Lightdash project UUID  [required]
-* `--space-uuid TEXT`: Lightdash space UUID  [required]
-* `--user-uuid TEXT`: Lightdash user UUID  [required]
-* `--user-email TEXT`: Lightdash user email  [required]
-* `--dry-run / --no-dry-run`: Dry run if true  [default: no-dry-run]
-* `--help`: Show this message and exit.
-
-## `lightdash-ops settings`
-
-**Usage**:
-
-```console
-$ lightdash-ops settings [OPTIONS] COMMAND [ARGS]...
-```
-
-**Options**:
-
-* `--help`: Show this message and exit.
-
-**Commands**:
-
-* `get`: Get the manager settings
-
-### `lightdash-ops settings get`
-
-Get the manager settings
-
-NOTE:
-    The output format isn't fully compatible with .env file.
-
-**Usage**:
-
-```console
-$ lightdash-ops settings get [OPTIONS]
-```
-
-**Options**:
-
-* `--help`: Show this message and exit.
