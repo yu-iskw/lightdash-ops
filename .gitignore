@@ -131,3 +131,7 @@ tmp*.sh
 temp*.sh
 !ci/test*.sh
 !dev/test*.sh
+
+# Temporary files
+temp.*
+tmp.*
