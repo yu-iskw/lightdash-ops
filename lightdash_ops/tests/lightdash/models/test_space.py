@@ -16,7 +16,7 @@
 
 import unittest
 
-from lightdash_ops.models.space import Space, SpaceVisibility
+from lightdash_ops.lightdash.models.space import Space, SpaceVisibility
 
 
 class TestSpace(unittest.TestCase):
@@ -28,7 +28,9 @@ class TestSpace(unittest.TestCase):
         visibility = SpaceVisibility.PRIVATE
         allow_manual_management = True
         with self.assertRaises(ValueError):
-            Space(name=name,
-                  description=description,
-                  visibility=visibility,
-                  allow_manual_management=allow_manual_management)
+            Space(
+                name=name,
+                description=description,
+                visibility=visibility,
+                allow_manual_management=allow_manual_management,
+            )

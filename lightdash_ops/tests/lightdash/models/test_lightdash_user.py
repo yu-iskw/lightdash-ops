@@ -16,7 +16,7 @@
 
 import unittest
 
-from lightdash_ops.models.base_user import LightdashUser
+from lightdash_ops.lightdash.models.base_user import LightdashUser
 
 
 class TestLightdashUser(unittest.TestCase):

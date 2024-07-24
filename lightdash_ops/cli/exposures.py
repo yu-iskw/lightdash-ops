@@ -21,8 +21,8 @@ from typing import List, Tuple
 import click
 import loguru
 
+from lightdash_ops.lightdash.settings import get_settings
 from lightdash_ops.lightdash.v1.client import LightdashClient
-from lightdash_ops.models.settings import get_settings
 from lightdash_ops.operators.exposures_v1 import DbtExposuresOperatorV1
 from lightdash_ops.utils import dump_yaml
 
@@ -68,7 +68,9 @@ def exposures_app():
     help='Overwrite the output file',
     default=False,
 )
-def generate_all(exposure_types: Tuple[str], output: str, project_names: Tuple[str], overwrite: bool):
+def generate_all(
+    exposure_types: Tuple[str], output: str, project_names: Tuple[str], overwrite: bool
+):
     """Generate dbt Exposures of all Lightdash projects"""
     # Get the settings
     settings = get_settings()

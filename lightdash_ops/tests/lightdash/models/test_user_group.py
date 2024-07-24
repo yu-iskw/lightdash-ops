@@ -17,7 +17,7 @@
 import json
 import unittest
 
-from lightdash_ops.models.user_group import GroupMember, UserGroup
+from lightdash_ops.lightdash.models.user_group import GroupMember, UserGroup
 
 
 class TestUserGroup(unittest.TestCase):

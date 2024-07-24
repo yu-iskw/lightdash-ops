@@ -34,10 +34,10 @@ class OrganizationRole(str, enum.Enum):
 
 
 class OrganizationMember(BaseModel):
-    uuid: str = Field(description='Member UUID', default=None)
-    email: EmailStr = Field(description='Member email')
-    role: OrganizationRole = Field(description='Member role')
-    is_active: bool = Field(description='Member is active', default=True)
+    user_uuid: str = Field(description='User UUID', default=None)
+    email: EmailStr = Field(description='User email')
+    role: OrganizationRole = Field(description='User role')
+    is_active: bool = Field(description='User is active', default=True)
 
 
 class Organization(BaseModel):

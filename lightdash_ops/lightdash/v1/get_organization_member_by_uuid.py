@@ -16,9 +16,9 @@ from typing import ClassVar, Optional
 
 from pydantic import Field
 
+from lightdash_ops.lightdash.models.organization import OrganizationRole
 from lightdash_ops.lightdash.v1.client import (BaseLightdashApiCaller,
                                                BaseResponseModel, RequestType)
-from lightdash_ops.models.organization import OrganizationRole
 
 
 # pylint: disable=invalid-name

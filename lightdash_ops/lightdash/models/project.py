@@ -19,8 +19,9 @@ from typing import List, Optional
 
 from pydantic import BaseModel, Field, validator
 
-from lightdash_ops.models.project_member import ProjectMember, ProjectRole
-from lightdash_ops.models.space import Space
+from lightdash_ops.lightdash.models.project_member import (ProjectMember,
+                                                           ProjectRole)
+from lightdash_ops.lightdash.models.space import Space
 
 
 class ProjectType(str, enum.Enum):

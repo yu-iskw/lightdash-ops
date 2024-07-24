@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import ClassVar, List
+from typing import ClassVar, List, Optional
 
 import requests
 from pydantic import BaseModel, Field
@@ -35,16 +35,14 @@ class ListOrganizationMembersApiV1Response(BaseResponseModel):
         firstName: str = Field(..., description='The first name of the member')
         userUuid: str = Field(..., description='The unique identifier of the user')
 
-    members: List[Member] = Field(
-        ..., default_factory=list, description='List of members'
-    )
+    members: List[Member] = Field(default_factory=list, description='List of members')
     status: str = Field(..., description='The status of the response')
 
     @classmethod
     def from_response(
         cls, response: requests.Response
     ) -> 'ListOrganizationMembersApiV1Response':
-        results = response.json().get('results', [])
+        results = response.json().get('results', {})
         status = response.json().get('status', 'unknown')
         return cls.from_results(results, status)
 
@@ -52,7 +50,7 @@ class ListOrganizationMembersApiV1Response(BaseResponseModel):
     def from_results(
         cls, results: dict, status: str
     ) -> 'ListOrganizationMembersApiV1Response':
-        members = [cls.Member(**member) for member in results]
+        members = [cls.Member(**member) for member in results.get('data', [])]
         return cls(members=members, status=status)
 
 
@@ -60,9 +58,27 @@ class ListOrganizationMembers(BaseLightdashApiCaller):
     request_type: ClassVar[RequestType] = RequestType.GET
     path: ClassVar[str] = '/api/v1/org/users'
 
-    def request(self) -> ListOrganizationMembersApiV1Response:
+    def request(
+        self,
+        include_groups: Optional[bool] = None,
+        page_size: Optional[int] = None,
+        page: Optional[int] = None,
+        search_query: Optional[str] = None,
+    ) -> ListOrganizationMembersApiV1Response:
+        # Build parameters
+        parameters = {}
+        if include_groups is not None:
+            parameters['includeGroups'] = '1' if include_groups else '0'
+        if page_size is not None:
+            parameters['pageSize'] = str(page_size)
+        if page is not None:
+            parameters['page'] = str(page)
+        if search_query is not None:
+            parameters['searchQuery'] = search_query
+        # Call the API
         response = self.client.call(
             request_type=self.__class__.request_type,
             path=self.__class__.path,
+            parameters={k: str(v) for k, v in parameters.items() if v is not None},
         )
         return ListOrganizationMembersApiV1Response.from_response(response=response)

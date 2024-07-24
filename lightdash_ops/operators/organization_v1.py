@@ -19,6 +19,9 @@ from typing import List, Optional
 import loguru
 from pydantic import BaseModel, EmailStr, Field
 
+from lightdash_ops.lightdash.models.organization import (OrganizationMember,
+                                                         OrganizationRole)
+from lightdash_ops.lightdash.models.project import Project, ProjectType
 from lightdash_ops.lightdash.v1.client import LightdashClient
 from lightdash_ops.lightdash.v1.get_organization_member_by_uuid import \
     GetOrganizationMemberByUuid
@@ -26,9 +29,6 @@ from lightdash_ops.lightdash.v1.list_organization_members import \
     ListOrganizationMembers
 from lightdash_ops.lightdash.v1.list_organization_projects import \
     ListOrganizationProjects
-from lightdash_ops.models.organization import (OrganizationMember,
-                                               OrganizationRole)
-from lightdash_ops.models.project import Project, ProjectType
 
 logger = loguru.logger
 

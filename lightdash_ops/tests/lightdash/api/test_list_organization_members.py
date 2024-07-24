@@ -38,18 +38,20 @@ class TestListOrganizationMembers(unittest.TestCase):
             self.assertIsInstance(member.userUuid, str)
 
     def test_from_results(self):
-        results = [
-            {
-                'isInviteExpired': False,
-                'isActive': True,
-                'role': 'admin',
-                'organizationUuid': '123e4567-e89b-12d3-a456-426614174000',
-                'email': 'user@example.com',
-                'lastName': 'Doe',
-                'firstName': 'John',
-                'userUuid': '123e4567-e89b-12d3-a456-426614174001',
-            }
-        ]
+        results = {
+            'data': [
+                {
+                    'isInviteExpired': False,
+                    'isActive': True,
+                    'role': 'admin',
+                    'organizationUuid': '123e4567-e89b-12d3-a456-426614174000',
+                    'email': 'user@example.com',
+                    'lastName': 'Doe',
+                    'firstName': 'John',
+                    'userUuid': '123e4567-e89b-12d3-a456-426614174001',
+                }
+            ]
+        }
 
         response_model = ListOrganizationMembersApiV1Response.from_results(
             results=results, status='success'

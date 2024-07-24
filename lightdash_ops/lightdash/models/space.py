@@ -19,7 +19,7 @@ from typing import List, Optional
 
 from pydantic import BaseModel, Field, field_validator
 
-from lightdash_ops.models.user_group import LightdashUser
+from lightdash_ops.lightdash.models.base_user import LightdashUser
 
 
 class SpaceMember(LightdashUser):

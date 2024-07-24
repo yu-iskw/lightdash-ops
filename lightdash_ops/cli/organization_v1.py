@@ -19,9 +19,9 @@ import json
 import click
 import loguru
 
+from lightdash_ops.lightdash.models.organization import OrganizationRole
+from lightdash_ops.lightdash.settings import get_settings
 from lightdash_ops.lightdash.v1.client import LightdashClient
-from lightdash_ops.models.organization import OrganizationRole
-from lightdash_ops.models.settings import get_settings
 from lightdash_ops.operators.organization_v1 import OrganizationOperatorV1
 
 logger = loguru.logger

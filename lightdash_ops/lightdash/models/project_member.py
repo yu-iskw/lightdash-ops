@@ -19,13 +19,14 @@ import enum
 
 from pydantic import Field, FutureDate, ValidationError, validator
 
-from lightdash_ops.models.base_user import LightdashUser
-from lightdash_ops.models.settings import get_settings
+from lightdash_ops.lightdash.models.base_user import LightdashUser
+from lightdash_ops.lightdash.settings import get_settings
 from lightdash_ops.utils import is_future_date
 
 
 class ProjectRole(str, enum.Enum):
     """Project roles"""
+
     ADMIN = 'admin'
     DEVELOPER = 'developer'
     EDITOR = 'editor'
@@ -39,6 +40,7 @@ class ProjectRole(str, enum.Enum):
 
 class ProjectMember(LightdashUser):
     """Information about a Lightdash project member"""
+
     role: ProjectRole = Field(description='Member role')
     expired_on: FutureDate = Field(description='Member expired on', default=None)
 
@@ -55,8 +57,11 @@ class ProjectMember(LightdashUser):
         """expired_on must be in the expiration days"""
         settings = get_settings()
         role_expiration_days = settings.ROLE_EXPIRATION_DAYS
-        if (settings.CHECK_ROLE_EXPIRATION is True
-                and v > datetime.date.today() + datetime.timedelta(days=role_expiration_days)):
+        if (
+            settings.CHECK_ROLE_EXPIRATION is True
+            and v
+            > datetime.date.today() + datetime.timedelta(days=role_expiration_days)
+        ):
             raise ValidationError(f'expired_on must be in {role_expiration_days} days')
         return v
 
@@ -64,6 +69,10 @@ class ProjectMember(LightdashUser):
         """Compare with another ProjectMember"""
         if not isinstance(other, ProjectMember):
             raise ValueError("Can't compare with a non ProjectMember")
-        if self.email == other.email and self.role == other.role and self.expired_on == other.expired_on:
+        if (
+            self.email == other.email
+            and self.role == other.role
+            and self.expired_on == other.expired_on
+        ):
             return True
         return False
