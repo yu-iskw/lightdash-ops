@@ -17,11 +17,11 @@ from typing import Dict, List, Optional
 
 from pydantic import BaseModel, Field
 
+from lightdash_ops.lightdash.models.exposure import DbtExposureProperty
 from lightdash_ops.lightdash.v1.client import LightdashClient
 from lightdash_ops.lightdash.v1.get_dbt_exposures import GetDbtExposures
 from lightdash_ops.lightdash.v1.list_organization_projects import \
     ListOrganizationProjects
-from lightdash_ops.models.exposure import DbtExposureProperty
 
 
 class DbtExposuresProperties(BaseModel):

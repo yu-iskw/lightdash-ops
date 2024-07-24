@@ -20,13 +20,14 @@ import click
 
 from lightdash_ops.cli.exposures import exposures_app
 from lightdash_ops.cli.organization_v1 import organization_app
-from lightdash_ops.models.settings import get_settings
+from lightdash_ops.lightdash.settings import get_settings
 
 
 def recursive_help(cmd, parent=None, depth=1):
     ctx = click.core.Context(cmd, info_name=cmd.name, parent=parent)
     head_element = '#' * depth
-    command_doc = textwrap.dedent(f"""
+    command_doc = textwrap.dedent(
+        f"""
     {head_element} {cmd.name}
 
     {textwrap.dedent(cmd.get_help(ctx))}

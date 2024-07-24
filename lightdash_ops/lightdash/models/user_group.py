@@ -19,7 +19,7 @@ from typing import List
 
 from pydantic import BaseModel, Field, ValidationError, field_validator
 
-from lightdash_ops.models.base_user import LightdashUser
+from lightdash_ops.lightdash.models.base_user import LightdashUser
 
 
 class GroupMember(LightdashUser):

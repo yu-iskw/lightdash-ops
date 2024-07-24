@@ -29,7 +29,7 @@ class LightdashOpsSettings(BaseSettings):
     """
 
     LIGHTDASH_URL: str = Field(
-        default=None, description='Lightdash base URL', env='LIGHTDASH_URL'
+        fault=None, description='Lightdash base URL', env='LIGHTDASH_URL'
     )
     LIGHTDASH_API_KEY: str = Field(
         default=None, description='Lightdash API key', env='LIGHTDASH_API_KEY'
