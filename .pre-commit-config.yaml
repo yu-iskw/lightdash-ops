@@ -8,7 +8,7 @@ repos:
         language: system
         args: ["./dev/update_resources.sh"]
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.6.0
     hooks:
       - id: end-of-file-fixer
         # Ignore the style check of docs/cli.md, as it is automatically generated
@@ -20,34 +20,34 @@ repos:
       - id: debug-statements
       - id: double-quote-string-fixer
   - repo: https://github.com/pycqa/isort
-    rev: 5.12.0
+    rev: 5.13.2
     hooks:
       - id: isort
         name: isort (python)
   - repo: https://github.com/pycqa/pylint
-    rev: v2.17.2
+    rev: v3.2.7
     hooks:
       - id: pylint
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: "v1.3.0"
+    rev: "v1.11.2"
     hooks:
       - id: mypy
-        additional_dependencies: [types-all]
+        additional_dependencies: [types-requests]
   - repo: https://github.com/rhysd/actionlint
-    rev: v1.6.24
+    rev: v1.7.1
     hooks:
       - id: actionlint-docker
   - repo: https://github.com/hadolint/hadolint
-    rev: v2.12.0
+    rev: v2.13.0-beta
     hooks:
       - id: hadolint
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.29.0
+    rev: v1.35.1
     hooks:
       - id: yamllint
         args: [--strict, -c=.yamllint]
   - repo: https://github.com/shellcheck-py/shellcheck-py
-    rev: v0.9.0.2
+    rev: v0.10.0.1
     hooks:
       - id: shellcheck
 
