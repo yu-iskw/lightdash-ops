@@ -14,7 +14,6 @@
 
 
 
-from typing import List
 
 from pydantic import BaseModel, Field
 
@@ -25,9 +24,8 @@ from lightdash_ops.lightdash.v1.list_organization_members import \
 
 
 class GetOrganizationMembersService(BaseModel):
-
+    """Get all members in an organization"""
     client: LightdashClient = Field(description='The Lightdash client')
-    members: List[OrganizationMember] = Field(description='The members of the organization')
 
     def get_all_members(self, page_size: int = 100, include_groups: bool = False):
         members = []
