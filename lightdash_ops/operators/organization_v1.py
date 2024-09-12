@@ -22,11 +22,11 @@ from pydantic import BaseModel, EmailStr, Field
 from lightdash_ops.lightdash.models.organization import (OrganizationMember,
                                                          OrganizationRole)
 from lightdash_ops.lightdash.models.project import Project, ProjectType
+from lightdash_ops.lightdash.services.get_organization_members import \
+    GetOrganizationMembersService
 from lightdash_ops.lightdash.v1.client import LightdashClient
 from lightdash_ops.lightdash.v1.get_organization_member_by_uuid import \
     GetOrganizationMemberByUuid
-from lightdash_ops.lightdash.v1.list_organization_members import \
-    ListOrganizationMembers
 from lightdash_ops.lightdash.v1.list_organization_projects import \
     ListOrganizationProjects
 
@@ -77,20 +77,17 @@ class OrganizationOperatorV1(BaseModel):
     # To avoid the frequent API calls, we cache the results
     def get_organization_members(self) -> List[OrganizationMember]:
         """Get all members in an organization"""
-        # Get all members
-        list_organization_members = ListOrganizationMembers(client=self.client)
-        response = list_organization_members.request()
+        service = GetOrganizationMembersService(client=self.client)
+        members = service.get_all_members()
         # Format
-        formatted_members = []
-        for member in response.members:
-            formatted_members.append(
-                OrganizationMember(
-                    email=member.email,
-                    uuid=member.userUuid,
-                    role=OrganizationRole(member.role),
-                    is_active=member.isActive,
-                )
-            )
+        formatted_members = [
+            OrganizationMember(
+                user_uuid=member.user_uuid,
+                role=OrganizationRole(member.role),
+                email=member.email,
+                is_active=member.is_active,
+            ) for member in members
+        ]
         return formatted_members
 
     def get_organization_member_by_email(
