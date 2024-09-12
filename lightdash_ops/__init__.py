@@ -17,4 +17,4 @@
 The CLI enables us to operate resources on Lightdash.
 """
 
-__version__ = '0.3.0'
+__version__ = '0.3.1'
