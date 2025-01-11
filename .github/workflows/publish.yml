@@ -5,10 +5,6 @@ on:
     types:
       - created
 
-env:
-  PYPI_PROJECT_NAME: "lightdash-ops"
-  PYPI_PACKAGE_NAME: "lightdash_ops"
-
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -16,56 +12,43 @@ jobs:
       run:
         shell: bash
     steps:
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
       - uses: actions/checkout@v4
       - name: Set up Python
         uses: actions/setup-python@v5
-      - uses: actions/cache@v4
-        id: cache
         with:
-          path: ${{ env.pythonLocation }}
-          key: ${{ runner.os }}-python-${{ env.pythonLocation }}-${{ hashFiles('pyproject.toml') }}-publish
-      - name: Install Flit
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: bash dev/setup.sh
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          uv run bash ./dev/setup.sh --deps "development"
       - name: Publish
         env:
-          # SEE https://packaging.python.org/en/latest/specifications/pypirc/?highlight=token#using-a-pypi-token
-          FLIT_USERNAME: __token__
-          FLIT_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-        run: bash dev/publish.sh "pypi"
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
+          UV_PUBLISH_TOKEN: "${{ secrets.PYPI_API_TOKEN }}"
+        run: |
+          bash dev/publish.sh "pypi"
+      # It takes some time when the package gets available.
+      - name: Sleep
+        run: |
+          sleep 120
 
   test-published-package:
-    strategy:
-      matrix:
-        python-version: ["3.9", "3.10", "3.11", "3.12"]
-      fail-fast: false
     needs:
       - publish
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
     defaults:
       run:
         shell: bash
     steps:
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
       - uses: actions/checkout@v4
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "${{ matrix.python-version }}"
-      - name: Install packages
+      - name: Install package
+        env:
+          PACKAGE_NAME: "lightdash-ops"
         run: |
-          python3 -m pip install -U "${{ env.PYPI_PROJECT_NAME }}"
-      - name: Test pacakge
-        run: |
-          python -c 'import ${{ env.PYPI_PACKAGE_NAME }}'
+          python -m pip install -U "${{ env.PACKAGE_NAME }}"
