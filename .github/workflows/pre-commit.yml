@@ -16,7 +16,7 @@ jobs:
           python-version: "3.11"
       - name: Install dependencies
         run: |
-          uv run bash ./dev/setup.sh --deps "development"
+          bash ./dev/setup.sh --deps "development"
       - name: Run pre-commit
         run: |
           uv run pre-commit run --all-files
