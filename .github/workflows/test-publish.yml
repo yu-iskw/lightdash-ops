@@ -22,7 +22,7 @@ jobs:
           python-version: "3.11"
       - name: Install dependencies
         run: |
-          uv run bash ./dev/setup.sh --deps "development"
+          bash ./dev/setup.sh --deps "development"
       - name: Test publish
         env:
           UV_PUBLISH_TOKEN: "${{ secrets.TESTPYPI_API_TOKEN }}"

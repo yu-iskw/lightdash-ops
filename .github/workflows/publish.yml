@@ -19,7 +19,7 @@ jobs:
           python-version: "3.11"
       - name: Install dependencies
         run: |
-          uv run bash ./dev/setup.sh --deps "development"
+          bash ./dev/setup.sh --deps "development"
       - name: Publish
         env:
           UV_PUBLISH_TOKEN: "${{ secrets.PYPI_API_TOKEN }}"
