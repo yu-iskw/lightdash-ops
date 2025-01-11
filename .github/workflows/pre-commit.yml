@@ -14,4 +14,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - uses: pre-commit/action@v3.0.1
+      - name: Install dependencies
+        run: |
+          uv run bash ./dev/setup.sh --deps "development"
+      - name: Run pre-commit
+        run: |
+          uv run pre-commit run --all-files
